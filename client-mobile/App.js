@@ -1,25 +1,28 @@
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screen/home';
 import LoginRegister from './screen/LoginRegister';
-
-const Stack = createNativeStackNavigator();
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Games from './src/screens/Games/Games';
+import Categories from './src/screens/Categories/Categories'
+import 'react-native-gesture-handler';
+import 'react-native-reanimated'
+import Play from './src/screens/Play';
 
 export default function App() {
-
-   return <LoginRegister />
-
-   // return (
-
-   // <NavigationContainer>
-   //    <Stack.Navigator>
-   //       <Stack.Screen name="Login" component={LoginRegister} />
-   //       <Stack.Screen name="Home" component={Home} />
-   //    </Stack.Navigator>
-   // </NavigationContainer>
-
-   // );
+  const Stack = createNativeStackNavigator()
+  return (
+    <NavigationContainer >
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginRegister} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name='categories' component={Categories} options={{headerShown: false}} />
+        <Stack.Screen name='games' component={Games} options={{headerShown: false}} />
+        <Stack.Screen name='plays' component={Play} options={{headerShown: false}} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
