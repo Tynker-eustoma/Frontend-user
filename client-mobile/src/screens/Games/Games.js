@@ -49,7 +49,7 @@ const Games = ({ navigation, route }) => {
       <FlatList
         data={games}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => index}
         numColumns={2}
         showsVerticalScrollIndicator={false}
       />
