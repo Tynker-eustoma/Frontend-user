@@ -37,14 +37,16 @@ const Games = ({ navigation, route }) => {
     "zoomInRight",
   ]
 
+  const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
+
   const renderItem = ({ item, index }) => {
     return (
       <Animatable.View
-        animation="flipInX"
+        animation={animation}
         duration={1000}
         delay={index * 300}
       >
-        <View style={[styles.listContainer,]}>
+        <View style={styles.listContainer}>
           <View style={styles.imageContainer}>
             <Image source={item.image} style={styles.image} />
           </View>
@@ -71,8 +73,6 @@ const Games = ({ navigation, route }) => {
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
   );
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7F9FD',
   },
   listContainer: {
-    width: Dimensions.get('window').width / 2 - 20,
+    width: Dimensions.get('window').width,
     backgroundColor: 'white',
     margin: 10,
     borderRadius: 20,

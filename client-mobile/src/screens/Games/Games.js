@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import data from './src/data';
 import * as Animatable from 'react-native-animatable'
-const Games = () => {
+const Games = ({ navigation, route }) => {
   const theAnimations = [
     "fadeIn",
     "fadeInUp",
@@ -37,10 +37,13 @@ const Games = () => {
     "zoomInRight",
   ]
 
+  const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
+
+
   const renderItem = ({ item, index }) => {
     return (
       <Animatable.View
-        animation="flipInX"
+        animation={animation}
         duration={1000}
         delay={index * 300}
       >
@@ -52,6 +55,7 @@ const Games = () => {
           <Text style={styles.priceText}>{item.price}</Text>
           <TouchableWithoutFeedback
             onPress={() => {
+              navigation.navigate('plays') //Insert Category ID games as route
               console.log("Bermain games ke ", index)
             }}>
             <View style={styles.button}>

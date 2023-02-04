@@ -4,6 +4,7 @@ import Games from './src/screens/Games/Games';
 import Categories from './src/screens/Categories/Categories'
 import 'react-native-gesture-handler';
 import 'react-native-reanimated'
+import Play from './src/screens/Play';
 
 export default function App() {
   const Stack = createNativeStackNavigator()
@@ -12,6 +13,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name='categories' component={Categories} options={{headerShown: false}} />
         <Stack.Screen name='games' component={Games} options={{headerShown: false}} />
+        <Stack.Screen name='plays' component={Play} options={{headerShown: false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
