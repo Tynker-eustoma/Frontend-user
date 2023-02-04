@@ -6,14 +6,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../stores/action/actionCreator';
 const Games = ({ navigation, route }) => {
-  const categories = useSelector((state) => state)
+  const categories = useSelector((state) => state.categories.categories)
   const theAnimations = [ "fadeIn", "fadeInUp", "fadeInDown", "fadeInDownBig", "fadeInUpBig", "fadeInLeft", "fadeInLeftBig", "fadeInRight",  "fadeInRightBig", "flipInX", "flipInY", "slideInDown", "slideInUp", "slideInLeft", "slideInRight", "zoomIn", "zoomInDown", "zoomInUp", "zoomInLeft", "zoomInRight"]
   const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getCategories())
   }, [])
-  console.log(categories)
   const renderItem = ({ item, index }) => {
     return (
       <Animatable.View
@@ -22,11 +21,11 @@ const Games = ({ navigation, route }) => {
         delay={index * 300}
       >
         <View style={styles.listContainer}>
-          <View style={styles.imageContainer}>
+          {/* <View style={styles.imageContainer}>
             <Image source={item.image} style={styles.image} />
-          </View>
+          </View> */}
           <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.priceText}>{item.price}</Text>
+          <Text style={styles.priceText}>{item.id}</Text>
           <TouchableWithoutFeedback
             onPress={() => {
               console.log("Ini games ", index)
@@ -45,7 +44,7 @@ const Games = ({ navigation, route }) => {
       {/* <Text>Hello</Text> */}
       <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginTop: 20}}>Categories</Text>
       <FlatList
-        data={data}
+        data={categories}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />

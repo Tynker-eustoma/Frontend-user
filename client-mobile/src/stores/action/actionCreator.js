@@ -1,6 +1,6 @@
 import { FetchingGame, FetchingGames, FetchingCategories, FetchingCategory } from "./actionType"
 // const baseUrl = 'http://localhost:3001'
-const baseUrl = 'https://7495-36-65-164-64.ap.ngrok.io'
+const baseUrl = 'https://7158-36-65-164-64.ap.ngrok.io'
 export const fetchGames = (payload) => {
     return { type: FetchingGames, payload }
 }
@@ -19,14 +19,18 @@ export const fetchCategory = (payload) => {
 
 export const getGames = () => {
     return (dispatch) => {
-        fetch(baseUrl + '/games', {
+        fetch(baseUrl + '/counting', {
             method: "get",
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-            .then(resp => resp.json())
-            .then(data => dispatch(fetchGames(data)))
+            .then(resp => {
+                return resp.json()
+            })
+            .then(data => {
+                return dispatch(fetchGames(data))
+            })
             .catch(error => console.log(error))
     }
 }
@@ -40,10 +44,11 @@ export const getCategories = () => {
             },
         })
             .then(resp => {
-                resp.json()
-                console.log(resp, "<<<")
+                return resp.json()
             })
-            .then(data => dispatch(fetchCategories(data)))
+            .then(data => {
+                return dispatch(fetchCategories(data))
+            })
             .catch(error => console.log(error))
     }
 }
