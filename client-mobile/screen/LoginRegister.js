@@ -1,12 +1,24 @@
-import {StyleSheet, Text, View, Dimensions, TextInput, Pressable} from 'react-native'
+import {StyleSheet, Text, View, Dimensions, TextInput, Pressable, AsyncStorage} from 'react-native'
 import backround from '../assets/login-background.jpg'
 import Svg, {Image, Ellipse, ClipPath} from 'react-native-svg'
-import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming} from 'react-native-reanimated'
+import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring, log} from 'react-native-reanimated'
+import React, {useState} from 'react'
+import { login } from '../store/actions/actionCreator'
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// import SyncStorage from 'sync-storage';
+
 
 const {height, width} = Dimensions.get('window')
+
 function LoginRegister(){
 
    const imagePosition = useSharedValue(1)
+   const formButtonScale = useSharedValue(1)
+
+   const [isRegistering, setIsregistering] = useState(false)
+
+   const [email, setEmail] = useState('')
+   const [password, setPassword] = useState('')
 
    const imageAnimatedStyle = useAnimatedStyle(() => {
       const interpolation = interpolate(imagePosition.value, [0, 1], [-height/2, 0])
@@ -18,20 +30,57 @@ function LoginRegister(){
    const buttonAnimatedStyle = useAnimatedStyle(() => {
       const interpolation = interpolate(imagePosition.value, [0,1], [250, 0])
       return {
-         opacity: withTiming(imagePosition.value, {duration: 500})
+         opacity: withTiming(imagePosition.value, {duration: 500}),
+         transform: [{translateY: withTiming(interpolation, {duration: 1000})}]
       }
    })
 
+   const closeButtonContainerStyle = useAnimatedStyle(() => {
+      const interpolation = interpolate(imagePosition.value, [0,1], [180, 360])
+      return {
+         opacity: withTiming(imagePosition.value === 1 ? 0 : 1, {duration: 800}), 
+         transform: [{rotate: withTiming(interpolation + "deg", {duration: 1000})}]
+      }
+   })
+
+   const formAnimatedStyle = useAnimatedStyle(() => {
+      return  {
+         opacity: imagePosition.value === 0 ? withDelay(400, withTiming(1, {duration: 800})) : withTiming(0, {duration: 300})
+      }
+   })
+
+   const formButtonAnimatedStyle = useAnimatedStyle(() => {
+      return {
+         transform: [{scale: formButtonScale.value}]
+      }
+   })
+
+   const loginPushHandler = async(email, password) =>{
+
+      try{
+   
+         const result = await login({email:'ervina@email.com', password:'123123123'})
+
+         await AsyncStorage.setItem('access_token', result.access_token)
+
+      } catch(error){
+         console.log(error, "Error bang!");
+      }
+      
+   }
+
    const loginHandler = () => {
       imagePosition.value = 0
+      setIsregistering(false)
    }
 
    const registerHandler = () => {
       imagePosition.value = 0
+      setIsregistering(true)
    }
 
    return (
-      <View style={styles.container}>
+      <Animated.View style={styles.container}>
 
          <Animated.View style={[StyleSheet.absoluteFill, imageAnimatedStyle]}>
             <Svg height={height + 100} width={width}>
@@ -47,9 +96,9 @@ function LoginRegister(){
                />
             </Svg>
 
-            <View style={styles.closeButtonContainer}>
-               <Text>X</Text>
-            </View>
+            <Animated.View style={[styles.closeButtonContainer, closeButtonContainerStyle]}>
+               <Text onPress={() => imagePosition.value = 1} >X</Text>
+            </Animated.View>
 
          </Animated.View>
 
@@ -66,23 +115,51 @@ function LoginRegister(){
                </Pressable>
             </Animated.View>
 
-            {/* <View style={styles.formInputContainer}>
+            {/* Register */}
+            {
+               isRegistering &&
 
-               <TextInput placeholder='Username' placeholderTextColor="black" style={styles.textInput}/>
-               <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput}/>
-               <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput}/>
+               <Animated.View style={[styles.formInputContainer, formAnimatedStyle]}>
 
-               <View style={styles.formButton}>
+                  <TextInput placeholder='Username' placeholderTextColor="black" style={styles.textInput}/>
+                  <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput}/>
+                  <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput}/>
 
-                  <Text style={styles.buttonText}>LOG IN</Text>
+                  <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
+                     <Pressable onPress={()=> formButtonScale.value = withSequence(withSpring(1.5), withSpring(1))}>
+                        <Text style={styles.buttonText}>REGISTER</Text>
+                     </Pressable>
+                  </Animated.View>
 
-               </View>
+               </Animated.View>
+            }
 
-            </View> */}
+            {/* Login */}
+            {
+               !isRegistering &&
+
+               <Animated.View style={[styles.formInputContainer, formAnimatedStyle]}>
+
+                  <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput} onChangeText={setEmail} name='email'/>
+                  <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput} onChangeText={setPassword} name='password'/>
+               
+                  <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
+                     <Pressable onPress={()=>{
+                        loginPushHandler(email, password)
+                        formButtonScale.value = withSequence(withSpring(1.5), withSpring(1))
+                     }}>
+                        <Text style={styles.buttonText}>LOG IN</Text>
+                     </Pressable>
+                  </Animated.View>
+
+               </Animated.View>
+            }
+
+            
 
          </View>
 
-      </View>
+      </Animated.View>
    )
 }
 
@@ -100,7 +177,8 @@ const styles = StyleSheet.create({
       marginHorizontal: 20, 
       marginVertical: 10,
       borderWidth: 1, 
-      borderColor: 'white'
+      borderColor: 'white',
+      
    }, 
    buttonText: {
       fontSize: 20, 
@@ -142,7 +220,10 @@ const styles = StyleSheet.create({
       elevation: 5
    },
    formInputContainer: {
-      marginBottom: 70
+      marginBottom: 70,
+      ...StyleSheet.absoluteFill,
+      justifyContent: 'center',
+      zIndex:-11,
    },
    closeButtonContainer: {
       height: 40,
@@ -156,9 +237,9 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.34,
       shadowRadius: 6.27, 
       elevation: 1,
-      borderColor: 'white',
+      borderColor: 'red',
       alignItems: 'center',
-      borderRadius: 20,
+      borderRadius: 10,
       top: -20
    }
 });

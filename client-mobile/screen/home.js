@@ -9,7 +9,6 @@ function Home(){
          <StatusBar style="auto" />
       </View> 
    )
-
 }
 
 const styles = StyleSheet.create({
