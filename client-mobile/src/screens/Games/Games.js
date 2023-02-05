@@ -1,43 +1,19 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableWithoutFeedback,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableWithoutFeedback, Dimensions, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import data from './src/data';
 import * as Animatable from 'react-native-animatable'
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getGames } from '../../stores/action/actionCreator';
 const Games = ({ navigation, route }) => {
-  const theAnimations = [
-    "fadeIn",
-    "fadeInUp",
-    "fadeInDown",
-    "fadeInDownBig",
-    "fadeInUpBig",
-    "fadeInLeft",
-    "fadeInLeftBig",
-    "fadeInRight",
-    "fadeInRightBig",
-  
-    "flipInX",
-    "flipInY",
-   
-    "slideInDown",
-    "slideInUp",
-    "slideInLeft",
-    "slideInRight",
-    
-    "zoomIn",
-    "zoomInDown",
-    "zoomInUp",
-    "zoomInLeft",
-    "zoomInRight",
-  ]
+  const games = useSelector((state) => state.games.games)
+  const theAnimations = [ "fadeIn", "fadeInUp", "fadeInDown", "fadeInDownBig", "fadeInUpBig", "fadeInLeft", "fadeInLeftBig", "fadeInRight", "fadeInRightBig", "flipInX", "flipInY", "slideInDown", "slideInUp", "slideInLeft", "slideInRight", "zoomIn", "zoomInDown", "zoomInUp", "zoomInLeft", "zoomInRight" ]
 
   const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getGames())
+  }, [])
 
 
   const renderItem = ({ item, index }) => {
@@ -49,10 +25,10 @@ const Games = ({ navigation, route }) => {
       >
         <View style={[styles.listContainer,]}>
           <View style={styles.imageContainer}>
-            <Image source={item.image} style={styles.image} />
+            <Image source={item.imgUrl} style={styles.image} />
           </View>
-          <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.priceText}>{item.price}</Text>
+          <Text style={styles.nameText}>{item.question}</Text>
+          <Text style={styles.priceText}>{item.lvl}</Text>
           <TouchableWithoutFeedback
             onPress={() => {
               navigation.navigate('plays') //Insert Category ID games as route
@@ -71,9 +47,9 @@ const Games = ({ navigation, route }) => {
       {/* <Text>Hello</Text> */}
       <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginTop: 20}}>Game</Text>
       <FlatList
-        data={data}
+        data={games}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item, index) => index}
         numColumns={2}
         showsVerticalScrollIndicator={false}
       />
