@@ -17,3 +17,18 @@ export const login = (data) => {
       return result
    })
 }
+
+
+export const register = (data) => {
+   
+   return fetch(baseUrl + '/pub/register', {
+      method: "POST",
+      headers: {
+         'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+   })
+   .then(response => {
+      return response.json()
+   })
+}

@@ -1,11 +1,13 @@
 import { FetchingGame, FetchingGames, FetchingCategories, FetchingCategory } from "./actionType"
 // const baseUrl = 'http://localhost:3001'
-const baseUrl = 'https://7158-36-65-164-64.ap.ngrok.io'
+// const baseUrl = 'https://7158-36-65-164-64.ap.ngrok.io'
+const baseUrl = ' https://73de-180-244-164-241.ap.ngrok.io'
 export const fetchGames = (payload) => {
     return { type: FetchingGames, payload }
 }
 
 export const fetchCategories = (payload) => {
+    console.log(payload)
     return { type: FetchingCategories, payload }
 }
 

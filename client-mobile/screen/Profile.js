@@ -5,9 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import GifImage from "@lowkey/react-native-gif";
+// import GifImage from "@lowkey/react-native-gif";
 
 const Profile = () => {
   const [score, setScore] = useState(0);
@@ -22,7 +23,7 @@ const Profile = () => {
         style={styles.image}
       >
         <View style={styles.profileContainer}>
-          <GifImage
+          <Image
             source={require("../assets/try.gif")}
             style={styles.avatar}
           />
