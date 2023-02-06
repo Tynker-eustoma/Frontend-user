@@ -11,12 +11,27 @@ import {
 import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
+import { getGame } from "../../stores/action/actionCreator";
+import { useDispatch, useSelector } from "react-redux";
 export default function Learning() {
   const speak = () => {
-    const thingToSay =
-      "Sebutkan bahasa inggris dari angka satu, saat menjawab sebutkan 2 kali ya";
+    const thingToSay = game.question
     Speech.speak(thingToSay);
   };
+
+  const dispatch = useDispatch()
+
+  const game = useSelector((state) => state.games.game)
+
+  useEffect(() => {
+     dispatch(getGame(60))
+  },[])
+
+  if(!game){
+     return <Text>Loading bang........</Text>
+  }
+
+  // console.log(game)
 
   const [pitch, setPitch] = useState("");
   const [error, setError] = useState("");
@@ -65,6 +80,13 @@ export default function Learning() {
   //   console.log('onSpeechVolumeChanged: ', e )
   //   setPitch(e.value)
   // }
+
+  console.log(partialResults)
+  console.log(partialResults[3])
+
+  if(partialResults.value[0] == "two two" || partialResults.value[1] == "two two"|| partialResults.value[2] == "two two" || partialResults.value[3] == "two two"){
+    console.log('jawaban betul gengss YUHUUUUUUUUUUUUUUUUU')
+  }
 
   const startRecognizing = async () => {
     try {
@@ -130,7 +152,7 @@ export default function Learning() {
 
         <View style={styles.question}>
           <Text style={styles.titleText}>
-            Sebutkan bahasa inggris dari angka satu
+            {game.question}
           </Text>
         </View>
 
