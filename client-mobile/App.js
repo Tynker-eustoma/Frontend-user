@@ -13,6 +13,7 @@ import 'react-native-reanimated'
 import store from './src/stores';
 import { Provider } from 'react-redux'
 import learning from './src/screens/Games/learning';
+import Guessing from './src/screens/Games/Guessing';
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer >
         <Stack.Navigator>
+          <Stack.Screen name='Guessing' component={Guessing} options={{headerShown: false}} />
           <Stack.Screen name='learning' component={learning} options={{ headerShown: false }} />
           <Stack.Screen name='LandingPage' component={LandingPage} options={{headerShown: false}} />
           <Stack.Screen name='categories' component={Categories} options={{ headerShown: false }} />
