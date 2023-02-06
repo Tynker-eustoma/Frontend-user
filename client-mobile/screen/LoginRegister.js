@@ -3,7 +3,7 @@ import backround from '../assets/login-background.jpg'
 import Svg, {Image, Ellipse, ClipPath} from 'react-native-svg'
 import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring, log} from 'react-native-reanimated'
 import React, {useState} from 'react'
-import { login } from '../store/actions/actionCreator'
+import { login, register } from '../store/actions/actionCreator'
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import SyncStorage from 'sync-storage';
 
@@ -17,6 +17,7 @@ function LoginRegister(){
 
    const [isRegistering, setIsregistering] = useState(false)
 
+   const [usernmae, setUsername] = useState('')
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
 
@@ -59,7 +60,7 @@ function LoginRegister(){
 
       try{
    
-         const result = await login({email:'ervina@email.com', password:'123123123'})
+         const result = await login({email, password})
 
          await AsyncStorage.setItem('access_token', result.access_token)
 
@@ -67,6 +68,18 @@ function LoginRegister(){
          console.log(error, "Error bang!");
       }
       
+   }
+
+   const registerPushHandler = (username, email, password) => {
+      
+      register({username, email, password})
+      
+   }
+
+   const reset = () => {
+      // setUsername('')
+      // setEmail('')
+      // setPassword('')
    }
 
    const loginHandler = () => {
@@ -97,7 +110,10 @@ function LoginRegister(){
             </Svg>
 
             <Animated.View style={[styles.closeButtonContainer, closeButtonContainerStyle]}>
-               <Text onPress={() => imagePosition.value = 1} >X</Text>
+               <Text onPress={() =>{
+                  reset()
+                  imagePosition.value = 1
+               }} >X</Text>
             </Animated.View>
 
          </Animated.View>
@@ -121,12 +137,15 @@ function LoginRegister(){
 
                <Animated.View style={[styles.formInputContainer, formAnimatedStyle]}>
 
-                  <TextInput placeholder='Username' placeholderTextColor="black" style={styles.textInput}/>
-                  <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput}/>
-                  <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput}/>
+                  <TextInput placeholder='Username' placeholderTextColor="black" style={styles.textInput} onChangeText={setUsername} name='username'/>
+                  <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput} onChangeText={setEmail} name='email'/>
+                  <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput} onChangeText={setPassword} name='password'/>
 
                   <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
-                     <Pressable onPress={()=> formButtonScale.value = withSequence(withSpring(1.5), withSpring(1))}>
+                     <Pressable onPress={()=> {
+                        formButtonScale.value = withSequence(withSpring(1.5), withSpring(1))
+                        registerPushHandler()
+                     }}>
                         <Text style={styles.buttonText}>REGISTER</Text>
                      </Pressable>
                   </Animated.View>
@@ -226,10 +245,11 @@ const styles = StyleSheet.create({
       zIndex:-11,
    },
    closeButtonContainer: {
-      height: 40,
-      width: 40,
+      height: 30,
+      width: 30,
       justifyContent: 'center',
       alignSelf: 'center',
+      borderRadius: 20,
       shadowOffset: {
          width: 0,
          height: 5,
@@ -237,10 +257,8 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.34,
       shadowRadius: 6.27, 
       elevation: 1,
-      borderColor: 'red',
       alignItems: 'center',
-      borderRadius: 10,
-      top: -20
+      top: -5
    }
 });
 
