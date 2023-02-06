@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, Text, TouchableOpacity, ImageBackground } from "react-native";
 
 const options = [
   {
@@ -39,7 +39,7 @@ const Guessing = () => {
     // code to play audio for the selected option
   };
   return (
-    <View style={styles.container}>
+    <ImageBackground source={require("../../../assets/Guessing.jpg")}  style={styles.container}>
         <View style={styles.questionContainer}>
            <Text style={styles.question}>Question Here</Text> 
         </View>
@@ -99,15 +99,20 @@ const Guessing = () => {
           <Text style={styles.optionText}>{options[3].text}</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.submitButton}>
+        <TouchableOpacity>
+          <Text style={styles.submit}>SUBMIT</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.speakerContainer}>
         <TouchableOpacity
           style={styles.speakerButton}
           onPress={handleSpeakOption}
         >
-          <Image source={{uri: "https://icons.iconarchive.com/icons/icons8/windows-8/512/Mobile-Speaker-icon.png"}} style={{width: 50, height: 50}}/>
+          <Image source={{uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s"}} style={{width: 50, height: 50}}/>
         </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -116,7 +121,6 @@ const styles = {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffebcd",
   },
   questionContainer: {
     position: "absolute",
@@ -136,7 +140,7 @@ const styles = {
   option: {
     width: "45%",
     height: 150,
-    backgroundColor: `#ffebcd`,
+    backgroundColor: `transparent`,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -147,11 +151,27 @@ const styles = {
     textAlign: "center",
   },
   selectedOption: {
-    backgroundColor: "#ddd",
+    backgroundColor: "rgba(52, 52, 52, 0.4)",
+    opacity: "",
+    borderRadius: 20
+  },
+  submitButton: {
+    borderRadius: 20,
+    backgroundColor: "#87CEEB",
+    width: 80,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50
+  },
+  submit: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "white"
   },
   speakerContainer: {
     position: "absolute",
-    bottom: 100,
+    bottom: 50,
   },
   speakerButton: {
     paddingVertical: 10,
