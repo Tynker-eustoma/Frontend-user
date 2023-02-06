@@ -20,9 +20,9 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer >
         <Stack.Navigator>
+         <Stack.Screen name="Login" component={LoginRegister} options={{headerShown: false}}/>
          <Stack.Screen name="Quiz Section" component={QuizSection}/>
          <Stack.Screen name='learning' component={learning} options={{ headerShown: false }} />
-         <Stack.Screen name="Login" component={LoginRegister}/>
          <Stack.Screen name='categories' component={Categories} options={{ headerShown: false }} />
          <Stack.Screen name='games' component={Games} options={{ headerShown: false }} />
          <Stack.Screen name='plays' component={Play} options={{ headerShown: false }} />
