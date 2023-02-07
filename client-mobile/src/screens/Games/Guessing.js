@@ -1,35 +1,23 @@
-import React, { useState } from "react";
-import { View, Image, Text, TouchableOpacity, ImageBackground } from "react-native";
-
-const options = [
-  {
-    id: 1,
-    text: "A",
-    image:
-      "https://i.pinimg.com/originals/2b/2b/9e/2b2b9e6898f62e41d32056e7cfe492e1.gif",
-  },
-  {
-    id: 2,
-    text: "B",
-    image:
-      "https://i.pinimg.com/originals/32/14/15/3214157614e454626c5c6e7d58c0e68b.gif",
-  },
-  {
-    id: 3,
-    text: "C",
-    image:
-      "https://2.bp.blogspot.com/-2OIk0vcoUH8/XKGckf1y6JI/AAAAAAAV6-Q/1vwfypSpZCwh8HsQHQFopar06MJV02pFACLcBGAs/s1600/AW3819936_00.gif",
-  },
-  {
-    id: 4,
-    text: "D",
-    image:
-      "https://media0.giphy.com/media/URuzxahV9KeIORFGy5/200w.gif?cid=82a1493b4b4m47js3jzw9496z2kdsdqm1m5azmrvcrmza55d&rid=200w.gif&ct=s",
-  },
-];
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import { getGame, updateLevel } from "../../../store/actions/actionCreator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Guessing = () => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const game = useSelector((state) => state.games.game);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getGame(30));
+  }, []);
 
   const handleSelectOption = (option) => {
     setSelectedOption(option);
@@ -38,69 +26,93 @@ const Guessing = () => {
   const handleSpeakOption = () => {
     // code to play audio for the selected option
   };
+
+  const submit = () => {
+    if (selectedOption == game.answer) {
+      console.log("benar");
+      const update = async () => {
+        try {
+          const access_token = await AsyncStorage.getItem("access_token");
+          updateLevel(game.CategoryId, access_token);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      update();
+    } else {
+      console.log("salah");
+    }
+  };
   return (
-    <ImageBackground source={require("../../../assets/Guessing.jpg")}  style={styles.container}>
-        <View style={styles.questionContainer}>
-           <Text style={styles.question}>Question Here</Text> 
-        </View>
+    <ImageBackground
+      source={require("../../../assets/Guessing.jpg")}
+      style={styles.container}
+    >
+      <View style={styles.questionContainer}>
+        <Text style={styles.question}>{game.question}</Text>
+      </View>
       <View style={styles.optionsContainer}>
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption?.id === options[0].id && styles.selectedOption,
+            selectedOption === game.optionA ? styles.selectedOption : styles.option,
           ]}
-          onPress={() => handleSelectOption(options[0])}
+          onPress={() => handleSelectOption(game.optionA)}
         >
           <Image
-            source={{ uri: options[0].image }}
+            source={{ uri: game.optionA }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
           />
-          <Text style={styles.optionText}>{options[0].text}</Text>
+          <Text style={styles.optionText}>A</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption?.id === options[1].id && styles.selectedOption,
+            selectedOption === game.optionB ? styles.selectedOption : styles.option,
           ]}
-          onPress={() => handleSelectOption(options[1])}
+          onPress={() => handleSelectOption(game.optionB)}
         >
           <Image
-            source={{ uri: options[1].image }}
+            source={{ uri: game.optionB }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
           />
-          <Text style={styles.optionText}>{options[1].text}</Text>
+          <Text style={styles.optionText}>B</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.optionsContainer}>
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption?.id === options[2].id && styles.selectedOption,
+            selectedOption === game.optionC ? styles.selectedOption : styles.option,
           ]}
-          onPress={() => handleSelectOption(options[2])}
+          onPress={() => handleSelectOption(game.optionC)}
         >
           <Image
-            source={{ uri: options[2].image }}
+            source={{ uri: game.optionC }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
           />
-          <Text style={styles.optionText}>{options[2].text}</Text>
+          <Text style={styles.optionText}>C</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption?.id === options[3].id && styles.selectedOption,
+            selectedOption === game.optionD ? styles.selectedOption : styles.option,
           ]}
-          onPress={() => handleSelectOption(options[3])}
+          onPress={() => handleSelectOption(game.optionD)}
         >
           <Image
-            source={{ uri: options[3].image }}
+            source={{ uri: game.optionD }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
           />
-          <Text style={styles.optionText}>{options[3].text}</Text>
+          <Text style={styles.optionText}>D</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.submitButton}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            submit();
+          }}
+        >
           <Text style={styles.submit}>SUBMIT</Text>
         </TouchableOpacity>
       </View>
@@ -109,7 +121,12 @@ const Guessing = () => {
           style={styles.speakerButton}
           onPress={handleSpeakOption}
         >
-          <Image source={{uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s"}} style={{width: 50, height: 50}}/>
+          <Image
+            source={{
+              uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
+            }}
+            style={{ width: 50, height: 50 }}
+          />
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -124,7 +141,7 @@ const styles = {
   },
   questionContainer: {
     position: "absolute",
-    top: 100
+    top: 100,
   },
   question: {
     fontSize: 20,
@@ -153,7 +170,7 @@ const styles = {
   selectedOption: {
     backgroundColor: "rgba(52, 52, 52, 0.4)",
     opacity: "",
-    borderRadius: 20
+    borderRadius: 20,
   },
   submitButton: {
     borderRadius: 20,
@@ -162,12 +179,12 @@ const styles = {
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50
+    marginTop: 50,
   },
   submit: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "white"
+    color: "white",
   },
   speakerContainer: {
     position: "absolute",
