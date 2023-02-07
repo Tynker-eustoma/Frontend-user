@@ -1,13 +1,13 @@
-import Home from "./screen/home";
-import LoginRegister from "./screen/LoginRegister";
-import QuizSection from "./screen/QuizSection";
+import Home from "./src/screens/home";
+import LoginRegister from "./src/screens/LoginRegister";
+import QuizSection from "./src/screens/QuizSection";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Games from "./src/screens/Games/Games";
-import Categories from "./src/screens/Categories/Categories";
+import Categories from "./src/screens/Categories";
 import Play from "./src/screens/Play";
-import Profile from "./screen/Profile";
-import LandingPage from "./screen/LandingPage";
+import Profile from "./src/screens/Profile";
+import LandingPage from "./src/screens/LandingPage";
 import "react-native-gesture-handler";
 import "react-native-reanimated";
 import store from "./src/stores";
@@ -21,6 +21,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginRegister} />
           <Stack.Screen
             name="Guessing"
             component={Guessing}
@@ -52,7 +53,6 @@ export default function App() {
             component={Play}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Login" component={LoginRegister} />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen
             name="Profile"

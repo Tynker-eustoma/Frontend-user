@@ -7,17 +7,29 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { getGame, updateLevel } from "../../../store/actions/actionCreator";
+import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Guessing = () => {
+const Guessing = ({navigation, route}) => {
+  const {id} = route.params
   const [selectedOption, setSelectedOption] = useState(null);
   const game = useSelector((state) => state.games.game);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getGame(30));
-  }, []);
+  const theGame = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("access_token")
+      dispatch(getGame(id, access_token))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+ useEffect(() => {
+    theGame()
+ },[])
+ console.log(game)
+
 
   const handleSelectOption = (option) => {
     setSelectedOption(option);
@@ -45,7 +57,7 @@ const Guessing = () => {
   };
   return (
     <ImageBackground
-      source={require("../../../assets/Guessing.jpg")}
+      source={require("../../assets/Guessing.jpg")}
       style={styles.container}
     >
       <View style={styles.questionContainer}>

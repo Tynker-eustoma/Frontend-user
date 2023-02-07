@@ -3,7 +3,7 @@ import backround from '../assets/login-background.jpg'
 import Svg, {Image, Ellipse, ClipPath} from 'react-native-svg'
 import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring, log} from 'react-native-reanimated'
 import React, {useState} from 'react'
-import { login, register } from '../store/actions/actionCreator'
+import { login, register } from '../stores/actions/actionCreator'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import SyncStorage from 'sync-storage';
 import { useNavigation } from '@react-navigation/native'
@@ -65,7 +65,7 @@ function LoginRegister(){
 
          await AsyncStorage.setItem('access_token', result.access_token)
 
-         navigation.replace('Quiz Section')
+         navigation.replace('categories')
          console.log('nyampe')
 
       } catch(error){
