@@ -5,7 +5,7 @@ import {
    FetchingCategory,
    FetchingUser
 } from "./actionType"
-const baseUrl = 'https://1849-36-65-164-64.ap.ngrok.io'
+const baseUrl = 'https://8924-180-244-162-5.ap.ngrok.io'
 
 export const login = (data) => {
 
@@ -165,13 +165,18 @@ export const getGamesByCategory = (categoryId) => {
    }
 }
 
-export const updateLevel = (CategoryId, access_token) => {
-   return fetch(baseUrl + `/pub/games/update/${CategoryId}`, {
-               method: 'put',
-               headers: {
-               'Content-Type': 'application/json',
-               access_token
-               },
-            })
-            .catch(error => console.log(error))
+export const updateLevel = (CategoryId, access_token, lvl) => {
+   return (dispatch) => {
+      const level = {lvl}
+      console.log(level, "action creatorrr")
+      return fetch(baseUrl + `/pub/games/update/${CategoryId}`, {
+         method: 'put',
+         headers: {
+         'Content-Type': 'application/json',
+         access_token
+         },
+         body: JSON.stringify(level)
+      })
+      .catch(error => console.log(error))
+   }
 }

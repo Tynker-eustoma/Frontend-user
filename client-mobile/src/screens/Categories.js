@@ -23,7 +23,6 @@ const Games = ({ navigation, route }) => {
   useEffect(() => {
     theCategories()
   }, [])
-  console.log(allState)
   const renderItem = ({ item, index }) => {
     return (
       <Animatable.View

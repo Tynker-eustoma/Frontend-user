@@ -1,4 +1,4 @@
-import {Text, View, Image, StyleSheet, TouchableOpacity, TouchableHighlight} from 'react-native'
+import {Text, View, Image, StyleSheet, Alert, TouchableOpacity, TouchableHighlight} from 'react-native'
 import image from '../assets/Image-quiz.jpg'
 import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
@@ -19,7 +19,7 @@ function QuizSection({navigation, route}) {
    const theGame = async () => {
       try {
         const access_token = await AsyncStorage.getItem("access_token")
-        dispatch(getGame(id, access_token))
+        dispatch(getGame(id, access_token, game.lvl))
       } catch (error) {
         console.log(error)
       }
@@ -58,7 +58,7 @@ function QuizSection({navigation, route}) {
                
                const access_token = await AsyncStorage.getItem('access_token')
 
-               updateLevel(game.CategoryId, access_token)
+               dispatch(updateLevel(game.CategoryId, access_token, game.lvl+1)).then(data => navigation.replace('Quiz Section', {id: id+1}))
             } catch (error) {
                
                console.log(error)
@@ -68,7 +68,14 @@ function QuizSection({navigation, route}) {
          update()
 
       } else {
-         //kembali ke menu game
+         Alert.alert('Jawaban salah', 'Ulangi sekali lagi', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ]);
          console.log('salah')
       }
    }
