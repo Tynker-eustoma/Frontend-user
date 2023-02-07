@@ -12,6 +12,7 @@ import 'react-native-reanimated'
 import store from './src/stores';
 import { Provider } from 'react-redux'
 import learning from './src/screens/Games/learning';
+import CategoryList from './screen/CategoryList';
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer >
         <Stack.Navigator>
+         <Stack.Screen name="Category List" component={CategoryList} options={{headerShown: false}}/>
          <Stack.Screen name="Login" component={LoginRegister} options={{headerShown: false}}/>
          <Stack.Screen name="Quiz Section" component={QuizSection}/>
          <Stack.Screen name='learning' component={learning} options={{ headerShown: false }} />
@@ -28,7 +30,8 @@ export default function App() {
          <Stack.Screen name='plays' component={Play} options={{ headerShown: false }} />
          <Stack.Screen name="Home" component={Home} />
          <Stack.Screen name='Profile' component={Profile} options={{headerShown: false}}/>
-        </Stack.Navigator>
+         
+      </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   );
