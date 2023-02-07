@@ -3,10 +3,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategories } from '../stores/actions/actionCreator';
+import { getCategories, getUser } from '../stores/actions/actionCreator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Games = ({ navigation, route }) => {
   const categories = useSelector((state) => state.categories.categories)
+  const allState = useSelector((state) => state)
   const theAnimations = [ "fadeIn", "fadeInUp", "fadeInDown", "fadeInDownBig", "fadeInUpBig", "fadeInLeft", "fadeInLeftBig", "fadeInRight",  "fadeInRightBig", "flipInX", "flipInY", "slideInDown", "slideInUp", "slideInLeft", "slideInRight", "zoomIn", "zoomInDown", "zoomInUp", "zoomInLeft", "zoomInRight"]
   const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
   const dispatch = useDispatch()
@@ -14,6 +15,7 @@ const Games = ({ navigation, route }) => {
     try {
       const access_token = await AsyncStorage.getItem("access_token")
       dispatch(getCategories(access_token))
+      dispatch(getUser(access_token))
     } catch (error) {
       console.log(error)
     }
@@ -21,7 +23,7 @@ const Games = ({ navigation, route }) => {
   useEffect(() => {
     theCategories()
   }, [])
-  console.log(categories)
+  console.log(allState)
   const renderItem = ({ item, index }) => {
     return (
       <Animatable.View
@@ -30,11 +32,10 @@ const Games = ({ navigation, route }) => {
         delay={index * 300}
       >
         <View style={styles.listContainer}>
-          {/* <View style={styles.imageContainer}>
-            <Image source={item.image} style={styles.image} />
-          </View> */}
+          <View style={styles.imageContainer}>
+            <Image source={{uri: 'https://media.tenor.com/akBy6qWGjs4AAAAi/peach-cat-mochi-peach-cat.gif'}} style={styles.image} />
+          </View>
           <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.priceText}>{item.id}</Text>
           <TouchableWithoutFeedback
             onPress={() => {
               console.log("Ini games ", index)

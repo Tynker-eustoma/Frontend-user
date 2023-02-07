@@ -25,6 +25,8 @@ const Games = ({ navigation, route }) => {
     theGames()
   }, [])
 
+  console.log(games)
+
 
   const renderItem = ({ item, index }) => {
     return (
@@ -35,7 +37,7 @@ const Games = ({ navigation, route }) => {
       >
         <View style={[styles.listContainer,]}>
           <View style={styles.imageContainer}>
-            <Image source={item.imgUrl} style={styles.image} />
+            <Image source={{uri: item.imgUrl}} style={styles.image} />
           </View>
           <Text style={styles.nameText}>{item.question}</Text>
           <Text style={styles.priceText}>{item.lvl}</Text>
