@@ -3,10 +3,12 @@ import {
 } from "redux";
 import gamesReducer from "./games";
 import categoriesReducer from "./categories";
+import userReducer from "./user";
 
 const rootReducer = combineReducers({
    games: gamesReducer,
-   categories: categoriesReducer
+   categories: categoriesReducer,
+   user: userReducer
 })
 
 export default rootReducer

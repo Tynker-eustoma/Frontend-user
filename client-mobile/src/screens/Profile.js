@@ -8,9 +8,11 @@ import {
   Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
 // import GifImage from "@lowkey/react-native-gif";
 
 const Profile = () => {
+  const user = useSelector((state) => state.users.user)
   const [score, setScore] = useState(0);
 
   return (
@@ -28,10 +30,10 @@ const Profile = () => {
             style={styles.avatar}
           />
           <View style={styles.infoCard}>
-            <Text style={styles.name}>John Doe</Text>
+            <Text style={styles.name}>{user.username}</Text>
 
             <Text style={styles.level}>
-              Counting Level: {Math.floor(score / 10) + 1}
+              Counting Level: {Math.floor(user.lvlCount / 30) + 1}
             </Text>
             <View style={styles.progressBarContainer}>
               <View
@@ -43,7 +45,7 @@ const Profile = () => {
             </View>
 
             <Text style={styles.level}>
-              Guessing Level: {Math.floor(score / 10) + 1}
+              Guessing Level: {Math.floor(user.lvlGuess / 30) + 1}
             </Text>
             <View style={styles.progressBarContainer}>
               <View
@@ -55,7 +57,7 @@ const Profile = () => {
             </View>
 
             <Text style={styles.level}>
-              English Level: {Math.floor(score / 10) + 1}
+              English Level: {Math.floor(user.lvlLearn / 30) + 1}
             </Text>
             <View style={styles.progressBarContainer}>
               <View

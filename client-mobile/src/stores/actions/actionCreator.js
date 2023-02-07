@@ -2,7 +2,8 @@ import {
    FetchingGame,
    FetchingGames,
    FetchingCategories,
-   FetchingCategory
+   FetchingCategory,
+   FetchingUser
 } from "./actionType"
 const baseUrl = 'https://1849-36-65-164-64.ap.ngrok.io'
 
@@ -67,6 +68,33 @@ export const fetchCategory = (payload) => {
       payload
    }
 }
+
+export const fetchUser = (payload) => {
+   return {
+      type: FetchingUser,
+      payload
+   }
+}
+
+export const getUser = (access_token) => {
+   return (dispatch) => {
+      fetch(baseUrl + '/pub/find', {
+            method: "get",
+            headers: {
+               'Content-Type': 'application/json',
+               access_token
+            },
+         })
+         .then(resp => {
+            return resp.json()
+         })
+         .then(data => {
+            return dispatch(fetchUser(data))
+         })
+         .catch(error => console.log(error))
+   }
+}
+
 
 export const getGames = (CategoryId, access_token) => {
    return (dispatch) => {

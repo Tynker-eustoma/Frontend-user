@@ -13,11 +13,14 @@ import Voice from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
 import { getGame } from "../../stores/actions/actionCreator";
 import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Learning({navigation, route}) {
   const speak = () => {
     const thingToSay = game.question
     Speech.speak(thingToSay);
   };
+
+  const {id} = route.params
 
   const dispatch = useDispatch()
 
