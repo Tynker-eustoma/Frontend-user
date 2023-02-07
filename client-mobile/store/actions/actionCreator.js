@@ -4,7 +4,7 @@ import {
    FetchingCategories,
    FetchingCategory
 } from "./actionType"
-const baseUrl = 'https://9f25-2001-448a-50e1-5797-6598-5a54-385e-be0e.ap.ngrok.io'
+const baseUrl = 'https://93b4-2001-448a-2077-158d-4bf-fbdf-8d67-80b6.ap.ngrok.io'
 
 export const login = (data) => {
 
@@ -110,7 +110,7 @@ export const getGame = (id) => {
             method: "get",
             headers: {
                'Content-Type': 'application/json',
-               'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImlhdCI6MTY3NTY5MzIwOX0.oQdw-EJzUotnX5Y0rtFtp6Lg5eJFxa6CpmxUGyAVzrg'
+               'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImlhdCI6MTY3NTczNDAxN30.fbIJJGRsscT3IrOJl770D6cYM9wZv0roQAoUTKBmyWU'
             },
          })
          .then(resp => resp.json())
