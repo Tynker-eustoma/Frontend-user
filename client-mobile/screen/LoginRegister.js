@@ -1,23 +1,24 @@
-import {StyleSheet, Text, View, Dimensions, TextInput, Pressable, AsyncStorage} from 'react-native'
+import {StyleSheet, Text, View, Dimensions, TextInput, Pressable} from 'react-native'
 import backround from '../assets/login-background.jpg'
 import Svg, {Image, Ellipse, ClipPath} from 'react-native-svg'
 import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring, log} from 'react-native-reanimated'
 import React, {useState} from 'react'
 import { login, register } from '../store/actions/actionCreator'
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import SyncStorage from 'sync-storage';
-
+import { useNavigation } from '@react-navigation/native'
 
 const {height, width} = Dimensions.get('window')
 
 function LoginRegister(){
 
+   const navigation = useNavigation()
    const imagePosition = useSharedValue(1)
    const formButtonScale = useSharedValue(1)
 
    const [isRegistering, setIsregistering] = useState(false)
 
-   const [usernmae, setUsername] = useState('')
+   const [username, setUsername] = useState('')
    const [email, setEmail] = useState('')
    const [password, setPassword] = useState('')
 
@@ -64,13 +65,16 @@ function LoginRegister(){
 
          await AsyncStorage.setItem('access_token', result.access_token)
 
+         navigation.replace('Quiz Section')
+         console.log('nyampe')
+
       } catch(error){
          console.log(error, "Error bang!");
       }
       
    }
 
-   const registerPushHandler = (username, email, password) => {
+   const registerPushHandler = () => {
       
       register({username, email, password})
       
@@ -95,7 +99,7 @@ function LoginRegister(){
    return (
       <Animated.View style={styles.container}>
 
-         <Animated.View style={[StyleSheet.absoluteFill, imageAnimatedStyle]}>
+         <Animated.View style={[StyleSheet.absoluteFill, imageAnimatedStyle, styles.imageBackroud]}>
             <Svg height={height + 100} width={width}>
                <ClipPath id="clipPathId">
                   <Ellipse cx={width/2} rx={height} ry={height + 100}/>
@@ -183,6 +187,9 @@ function LoginRegister(){
 }
 
 const styles = StyleSheet.create({
+   imageBackroud: {
+      zIndex: -14
+   },
    container: {
       flex: 1,
       justifyContent: 'flex-end'
@@ -217,7 +224,8 @@ const styles = StyleSheet.create({
       marginLeft: 10,
       borderRadius: 25, 
       paddingLeft: 10, 
-      marginBottom: 6
+      marginBottom: 6, 
+      backgroundColor: 'white'
    }, 
    formButton: {
       backgroundColor: 'rgba(123,104,238,0.8)',
