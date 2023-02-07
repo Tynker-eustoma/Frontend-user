@@ -13,6 +13,7 @@ import Voice from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
 import { getGame } from "../../stores/action/actionCreator";
 import { useDispatch, useSelector } from "react-redux";
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 export default function Learning() {
   const speak = () => {
     const thingToSay = game.question
@@ -81,11 +82,18 @@ export default function Learning() {
   //   setPitch(e.value)
   // }
 
-  console.log(partialResults)
-  console.log(partialResults[3])
+  console.log(results, "ini jawaban<<<<<<<<<<")
 
-  if(partialResults.value[0] == "two two" || partialResults.value[1] == "two two"|| partialResults.value[2] == "two two" || partialResults.value[3] == "two two"){
-    console.log('jawaban betul gengss YUHUUUUUUUUUUUUUUUUU')
+  if(results){
+    if(results[0] == "two two" || results[1] == "two two"|| results[2] == "two two" || results[3] == "two two" || results[0] == "2 2" || results[1] == "2 2"|| results[2] == "2 2" || results[3] == "2 2"){
+      console.log('jawaban benar')
+      Dialog.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: 'Success',
+        textBody: 'Congrats! this is dialog box success',
+        button: 'close',
+      })
+    }
   }
 
   const startRecognizing = async () => {
