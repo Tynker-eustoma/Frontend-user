@@ -1,19 +1,26 @@
-import { FetchingCategories, FetchingCategory } from "../action/actionType"
+import {
+   FetchingCategories,
+   FetchingCategory
+} from "../actions/actionType"
 
 const initialState = {
-    categories: [],
-    category: {}
+   categories: [],
+   category: {}
 }
 
 function categoriesReducer(state = initialState, action) {
-    switch (action.type) {
-        case FetchingCategories:
-            return { ...state, categories: action.payload }
-        case FetchingCategory:
-            return {...state, category: action.payload}
-        default:
-            return state
-    }
+   switch (action.type) {
+      case FetchingCategories:
+         return {
+            ...state, categories: action.payload
+         }
+         case FetchingCategory:
+            return {
+               ...state, category: action.payload
+            }
+            default:
+               return state
+   }
 }
 
 export default categoriesReducer
