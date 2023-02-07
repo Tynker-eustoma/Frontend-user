@@ -4,7 +4,7 @@ import {
    FetchingCategories,
    FetchingCategory
 } from "./actionType"
-const baseUrl = 'https://93b4-2001-448a-2077-158d-4bf-fbdf-8d67-80b6.ap.ngrok.io'
+const baseUrl = 'https://1849-36-65-164-64.ap.ngrok.io'
 
 export const login = (data) => {
 
@@ -68,12 +68,13 @@ export const fetchCategory = (payload) => {
    }
 }
 
-export const getGames = () => {
+export const getGames = (CategoryId, access_token) => {
    return (dispatch) => {
-      fetch(baseUrl + '/counting', {
+      fetch(baseUrl + '/pub/games/' + CategoryId, {
             method: "get",
             headers: {
                'Content-Type': 'application/json',
+               access_token
             },
          })
          .then(resp => {
@@ -86,12 +87,13 @@ export const getGames = () => {
    }
 }
 
-export const getCategories = () => {
+export const getCategories = (access_token) => {
    return (dispatch) => {
-      fetch(baseUrl + '/categories', {
+      fetch(baseUrl + '/pub/categories', {
             method: 'get',
             headers: {
                'Content-Type': 'application/json',
+               "access_token": access_token
             },
          })
          .then(resp => {
@@ -104,13 +106,13 @@ export const getCategories = () => {
    }
 }
 
-export const getGame = (id) => {
+export const getGame = (id, access_token) => {
    return (dispatch) => {
       fetch(baseUrl + '/pub/games/play/' + id, {
             method: "get",
             headers: {
                'Content-Type': 'application/json',
-               'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImlhdCI6MTY3NTczNDAxN30.fbIJJGRsscT3IrOJl770D6cYM9wZv0roQAoUTKBmyWU'
+               access_token
             },
          })
          .then(resp => resp.json())

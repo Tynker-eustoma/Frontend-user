@@ -4,21 +4,31 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
-import { getGame, updateLevel } from '../store/actions/actionCreator';
+import { getGame, updateLevel } from '../stores/actions/actionCreator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function QuizSection() {
+function QuizSection({navigation, route}) {
 
    // const [choice, setChoice] = useState('A')
+   const {id} = route.params
 
    const dispatch = useDispatch()
 
    const game = useSelector((state) => state.games.game)
 
+   const theGame = async () => {
+      try {
+        const access_token = await AsyncStorage.getItem("access_token")
+        dispatch(getGame(id, access_token))
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
    useEffect(() => {
-      
-      dispatch(getGame(1))
+      theGame()
    },[])
+   console.log(game)
 
    if(!game){
       return <Text>Loading bang........</Text>

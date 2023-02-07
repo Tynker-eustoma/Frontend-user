@@ -11,9 +11,9 @@ import {
 import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
-import { getGame } from "../../stores/action/actionCreator";
+import { getGame } from "../../stores/actions/actionCreator";
 import { useDispatch, useSelector } from "react-redux";
-export default function Learning() {
+export default function Learning({navigation, route}) {
   const speak = () => {
     const thingToSay = game.question
     Speech.speak(thingToSay);
@@ -23,9 +23,19 @@ export default function Learning() {
 
   const game = useSelector((state) => state.games.game)
 
-  useEffect(() => {
-     dispatch(getGame(60))
-  },[])
+  const theGame = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("access_token")
+      dispatch(getGame(id, access_token))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+ useEffect(() => {
+    theGame()
+ },[])
+ console.log(game)
 
   if(!game){
      return <Text>Loading bang........</Text>

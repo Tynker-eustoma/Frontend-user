@@ -1,18 +1,28 @@
 import { StyleSheet, Text, View, FlatList, Image, TouchableWithoutFeedback, Dimensions, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import data from './src/data';
 import * as Animatable from 'react-native-animatable'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getGames } from '../../stores/action/actionCreator';
+import { getGames } from '../../stores/actions/actionCreator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Games = ({ navigation, route }) => {
   const games = useSelector((state) => state.games.games)
+  const {CategoryId, name} = route.params
   const theAnimations = [ "fadeIn", "fadeInUp", "fadeInDown", "fadeInDownBig", "fadeInUpBig", "fadeInLeft", "fadeInLeftBig", "fadeInRight", "fadeInRightBig", "flipInX", "flipInY", "slideInDown", "slideInUp", "slideInLeft", "slideInRight", "zoomIn", "zoomInDown", "zoomInUp", "zoomInLeft", "zoomInRight" ]
+  console.log(CategoryId)
 
   const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
   const dispatch = useDispatch()
+  const theGames = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("access_token")
+      dispatch(getGames(CategoryId, access_token))
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(() => {
-    dispatch(getGames())
+    theGames()
   }, [])
 
 
@@ -31,8 +41,13 @@ const Games = ({ navigation, route }) => {
           <Text style={styles.priceText}>{item.lvl}</Text>
           <TouchableWithoutFeedback
             onPress={() => {
-              navigation.navigate('plays') //Insert Category ID games as route
-              console.log("Bermain games ke ", index)
+              if (item.CategoryId == 1){
+                navigation.navigate('Quiz Section', {id: item.id}) //Insert Category ID games as route
+              } else if (item.CategoryId == 2){
+                navigation.navigate('Guessing', {id: item.id}) //Insert Category ID games as route
+              } else if (item.CategoryId == 3){
+                navigation.navigate('learning', {id: item.id}) //Insert Category ID games as route
+              }
             }}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>Play!</Text>
@@ -45,7 +60,7 @@ const Games = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* <Text>Hello</Text> */}
-      <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginTop: 20}}>Game</Text>
+      <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', marginTop: 20}}>{name}</Text>
       <FlatList
         data={games}
         renderItem={renderItem}
