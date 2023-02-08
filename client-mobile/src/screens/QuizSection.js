@@ -14,6 +14,7 @@ import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
 import { getGame, updateLevel } from "../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message"
 
 function QuizSection({ navigation, route }) {
   // const [choice, setChoice] = useState('A')
@@ -42,10 +43,7 @@ function QuizSection({ navigation, route }) {
   }
 
   const speak = () => {
-    // console.log('masuk')
-    const thingToSay =
-      "Sebutkan bahasa inggris dari angka satu, sebutkan 2 kali ya";
-    Speech.speak(thingToSay);
+    Speech.speak(game.question);
   };
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -72,14 +70,20 @@ function QuizSection({ navigation, route }) {
 
       update();
     } else {
-      Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
-      ]);
+      Toast.show({
+        type: "error",
+        text1: "Jawaban Salah",
+        text2: "Ulangi Sekali Lagi",
+        position: "top"
+      })
+      // Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => console.log("Cancel Pressed"),
+      //     style: "cancel",
+      //   },
+      //   { text: "OK", onPress: () => console.log("OK Pressed") },
+      // ]);
       console.log("salah");
     }
   };
@@ -179,13 +183,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textLevel: {
-   fontSize: 21,
-   fontWeight: "bold",
-   color: "#757573",
-   marginTop: 10
+    fontSize: 21,
+    fontWeight: "bold",
+    color: "#757573",
+    marginTop: 10,
   },
   question: {
-    fontSize: 21,
+    fontSize: 16,
     marginVertical: 20,
     fontWeight: "bold",
     textAlign: "center",
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 10,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonPress: {
     width: "42%",
@@ -224,7 +228,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonSubmitContainer: {
     height: "25%",
