@@ -9,11 +9,11 @@ import Play from "./src/screens/Play";
 import Profile from "./src/screens/Profile";
 import LandingPage from "./src/screens/LandingPage";
 import "react-native-gesture-handler";
-import "react-native-reanimated";
 import store from "./src/stores";
 import { Provider } from "react-redux";
 import learning from "./src/screens/Games/learning";
 import Guessing from "./src/screens/Games/Guessing";
+import GamesNew from "./src/screens/Games/GamesNew";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -21,6 +21,11 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
+        {/* <Stack.Screen
+            name="GameNew"
+            component={GamesNew}
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             name="LandingPage"
             component={LandingPage}
@@ -45,7 +50,7 @@ export default function App() {
           <Stack.Screen name="Quiz Section" component={QuizSection} options={{ headerShown: false }}/>
           <Stack.Screen
             name="games"
-            component={Games}
+            component={GamesNew}
             options={{ headerShown: false }}
           />
           <Stack.Screen
