@@ -8,6 +8,7 @@ import { useFocusEffect } from '@react-navigation/native'
 import { useEffect, useCallback, useState } from 'react';
 import { getGames, getUser } from '../../stores/actions/actionCreator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 const learnImage = 'https://cdn-images-1.medium.com/max/600/1*ecLr0KQpK205SpZjtdSM-g.gif'
 const countImage = 'https://media.tenor.com/5DT1ruyHGH0AAAAi/ami-cat-equations.gif'
@@ -93,10 +94,6 @@ export default function GamesNew ({ navigation, route }) {
       }, [])
    )
 
-   // console.log("++++++++++++++++++++++++++++++++++++++++++++")
-   // console.log(games[0])
-   // console.log("++++++++++++++++++++++++++++++++++++++++++++")
-
    const renderItem = ({item}) => {
       
       return (
@@ -148,6 +145,7 @@ export default function GamesNew ({ navigation, route }) {
       </View>
       }
             <ImageBackground source={{uri: 'https://i.pinimg.com/originals/74/ef/67/74ef6789f116afcec0fed4ac208d9c3f.jpg'}} style={styles.backroundContainer}>
+
                   <Text style={{
                      paddingHorizontal: 20, 
                      fontSize: 30, 
@@ -193,6 +191,19 @@ export default function GamesNew ({ navigation, route }) {
                         </Text>
 
                         <TouchableOpacity
+                     onPress={() => {
+                        
+                        if(CategoryId == 1){
+                           navigation.navigate('Quiz Section', {id: user.lvlCount})
+                        } else if (CategoryId == 2) {
+                           navigation.navigate('Guessing', {id: user.lvlGuess+30})
+                        } else if (CategoryId == 3) {
+                           navigation.navigate('learning', {id: user.lvlLearn+60})
+                        } else {
+                           console.log('Offside')
+                        }
+
+                     }}
 
                      style={{
                         flexDirection: "row", 
@@ -222,8 +233,7 @@ export default function GamesNew ({ navigation, route }) {
                                  width: 10,
                                  height: 10,
                               }}
-                           />
-
+                              />
                         </TouchableOpacity>
 
 

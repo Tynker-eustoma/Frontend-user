@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, FlatList, Image, TouchableWithoutFeedback, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableWithoutFeedback, Dimensions, ImageBackground, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable'
 import { useEffect, useState, useCallback } from 'react';
@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { getCategories, getUser } from '../stores/actions/actionCreator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Feather } from '@expo/vector-icons';  
+import { FontAwesome } from '@expo/vector-icons';  
 import { Ionicons } from '@expo/vector-icons'; 
 
 const Games = ({ navigation, route }) => {
@@ -132,6 +132,17 @@ const Games = ({ navigation, route }) => {
             height: Dimensions.get('window').height
          }}
       >
+      <Text 
+         style={{
+            marginVertical: 30,
+            alignSelf: 'center',
+            fontWeight: 'bold',
+            fontSize: 25,
+            color:'#41617d'
+         }}
+      >
+         Games
+      </Text>
       <FlatList
          data={categories}
          renderItem={renderItem}
@@ -148,13 +159,23 @@ const Games = ({ navigation, route }) => {
          flexDirection: 'row', 
          backgroundColor: 'white',
          paddingHorizontal: 100,
-         alignSelf:'center'
+         alignSelf:'center',
+         position: 'absolute',
+         bottom:0
       }}>
          {/* <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color:'#e28743'}}>Ga</Text>
           */}
          {/* <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color:'#e28743'}}>Ga</Text> */}
-         <Ionicons name="ios-game-controller-sharp" size={30} color="#f58084" style={{marginTop: 13}}/>
-         <Feather name="user" size={30} color="black" style={{marginTop: 13}}/>
+         <Ionicons name="game-controller" size={30} color="#f58084" style={{marginTop: 13}}/>
+
+
+         <TouchableOpacity onPress={() => {
+            navigation.navigate('Profile')
+         }}>
+            <FontAwesome name="user-circle-o" size={30} color="black" style={{marginTop: 13}}/>
+         </TouchableOpacity>
+
+
       </View>
       </ImageBackground>
       }
