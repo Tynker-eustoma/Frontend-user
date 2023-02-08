@@ -76,7 +76,7 @@ function LoginRegister(){
 
    const registerPushHandler = () => {
       
-      register({username, email, password})
+      register({username, email, password, age: 7})
       
    }
 
