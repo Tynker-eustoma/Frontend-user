@@ -4,30 +4,73 @@ import arrow from '../../assets/a3.png'
 import icon from '../../assets/mathematics-icon.jpg'
 import ComponentGames from './ComponentGames'
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getGames } from '../../stores/actions/actionCreator';
+import { useFocusEffect } from '@react-navigation/native'
+import { useEffect, useCallback, useState } from 'react';
+import { getGames, getUser } from '../../stores/actions/actionCreator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons } from '@expo/vector-icons';
 
 const learnImage = 'https://cdn-images-1.medium.com/max/600/1*ecLr0KQpK205SpZjtdSM-g.gif'
 const countImage = 'https://media.tenor.com/5DT1ruyHGH0AAAAi/ami-cat-equations.gif'
 const guessImage = 'https://media.tenor.com/JrEhZmduHUIAAAAj/confusing-puzzled.gif'
 
 let mainImage
+let level
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default function GamesNew ({ navigation, route }) {
 
+   const [loading, setLoading] = useState(true)
    const games = useSelector((state) => state.games.games)
    const {CategoryId, name} = route.params
-   
+
+   const user = useSelector((state) => state.user.user)
+
+   if(!games || !user){
+      return (
+         <View
+         style={{
+            backgroundColor: '#FFF',
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3
+         }}
+      >
+         <Image
+            source={{uri: 'https://media.tenor.com/HLcwNOIAbXEAAAAi/samifying-cheers.gif'}}
+            style={{
+               width: 130,
+               height: 130,
+            }}
+         />
+         <Text
+            style={{
+               fontSize: 30,
+               color:'grey',
+               fontWeight: 'bold',
+               marginVertical: 20
+            }}
+         >
+            Loading.....
+         </Text>
+
+      </View>
+      )
+   }
+
    if(CategoryId == 1){
       mainImage = countImage
+      level = user.lvlCount
    } else if (CategoryId == 2){
       mainImage = guessImage
+      level = user.lvlGuess
    } else if (CategoryId == 3){
       mainImage = learnImage
+      level = user.lvlLearn
    }
 
    const dispatch = useDispatch()
@@ -35,18 +78,21 @@ export default function GamesNew ({ navigation, route }) {
       try {
          const access_token = await AsyncStorage.getItem("access_token")
          dispatch(getGames(CategoryId, access_token))
+         dispatch(getUser(access_token))
       } catch (error) {
          console.log(error)
       }
    }
-   
-   useEffect(() => {
-      theGames()
-   }, [])
-
-   // console.log("++++++++++++++++++++++++++++++++++++++++++++")
-   // console.log(games[0])
-   // console.log("++++++++++++++++++++++++++++++++++++++++++++")
+   useFocusEffect(
+      useCallback(() => {
+         setLoading(true)
+         theGames()
+         setTimeout(() => {
+            // console.log('jalan')
+            setLoading(false)
+            }, 1200)
+      }, [])
+   )
 
    const renderItem = ({item}) => {
       
@@ -55,24 +101,61 @@ export default function GamesNew ({ navigation, route }) {
             id={item.id}
             CategoryId ={item.CategoryId}
             level={item.lvl}
+            user={user}
          />
       )
    }
 
 
    return (
+
+      
       
       <View>
+         {
+         loading &&
+         <View
+         style={{
+            backgroundColor: '#FFF',
+            width: Dimensions.get('window').width,
+            height: Dimensions.get('window').height,
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3
+         }}
+      >
+         <Image
+            source={{uri: 'https://media.tenor.com/HLcwNOIAbXEAAAAi/samifying-cheers.gif'}}
+            style={{
+               width: 130,
+               height: 130,
+            }}
+         />
+         <Text
+            style={{
+               fontSize: 30,
+               color:'grey',
+               fontWeight: 'bold',
+               marginVertical: 20
+            }}
+         >
+            Loading.....
+         </Text>
+
+      </View>
+      }
             <ImageBackground source={{uri: 'https://i.pinimg.com/originals/74/ef/67/74ef6789f116afcec0fed4ac208d9c3f.jpg'}} style={styles.backroundContainer}>
+
                   <Text style={{
                      paddingHorizontal: 20, 
                      fontSize: 30, 
                      paddingTop: 40,
                      color: "#FFF",
                      fontWeight: "bold", 
-                     marginTop: 110
+                     marginTop: 110,
+                     alignSelf: 'center'
                   }}> 
-                     Start Learning, Username
+                     Start Learning, {user.username}
                   </Text>
                   {/* <Text style={{
                      paddingHorizontal: 20, 
@@ -104,10 +187,23 @@ export default function GamesNew ({ navigation, route }) {
                            width: 250,
                            paddingRight: 100
                         }}>
-                           Level {name} : 4
+                           Level {name} : {level}
                         </Text>
 
                         <TouchableOpacity
+                     onPress={() => {
+                        
+                        if(CategoryId == 1){
+                           navigation.navigate('Quiz Section', {id: user.lvlCount})
+                        } else if (CategoryId == 2) {
+                           navigation.navigate('Guessing', {id: user.lvlGuess+30})
+                        } else if (CategoryId == 3) {
+                           navigation.navigate('learning', {id: user.lvlLearn+60})
+                        } else {
+                           console.log('Offside')
+                        }
+
+                     }}
 
                      style={{
                         flexDirection: "row", 
@@ -138,8 +234,6 @@ export default function GamesNew ({ navigation, route }) {
                                  height: 10,
                               }}
                               />
-
-
                         </TouchableOpacity>
 
 

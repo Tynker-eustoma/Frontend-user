@@ -14,6 +14,7 @@ import { Provider } from "react-redux";
 import learning from "./src/screens/Games/learning";
 import Guessing from "./src/screens/Games/Guessing";
 import GamesNew from "./src/screens/Games/GamesNew";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -21,7 +22,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-        {/* <Stack.Screen
+          {/* <Stack.Screen
             name="GameNew"
             component={GamesNew}
             options={{ headerShown: false }}
@@ -31,7 +32,11 @@ export default function App() {
             component={LandingPage}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Login" component={LoginRegister} options={{ headerShown: false }}/>
+          <Stack.Screen
+            name="Login"
+            component={LoginRegister}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Guessing"
             component={Guessing}
@@ -47,7 +52,11 @@ export default function App() {
             component={Categories}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Quiz Section" component={QuizSection} options={{ headerShown: false }}/>
+          <Stack.Screen
+            name="Quiz Section"
+            component={QuizSection}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="games"
             component={GamesNew}
@@ -58,15 +67,19 @@ export default function App() {
             component={Play}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Profile"
             component={Profile}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
+        <Toast/>
       </NavigationContainer>
     </Provider>
   );
 }
-

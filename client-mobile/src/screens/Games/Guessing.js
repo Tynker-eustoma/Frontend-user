@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Speech from "expo-speech";
 
 const Guessing = ({ navigation, route }) => {
   const { id } = route.params;
@@ -27,7 +28,7 @@ const Guessing = ({ navigation, route }) => {
   };
 
   const handleSpeakOption = () => {
-    // code to play audio for the selected option
+    Speech.speak(game.question);
   };
 
   const theGame = async () => {
@@ -57,14 +58,20 @@ const Guessing = ({ navigation, route }) => {
       };
       update();
     } else {
-      Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
-      ]);
+      Toast.show({
+        type: "error",
+        text1: "Jawaban Salah",
+        text2: "Ulangi Sekali Lagi",
+        position: "top",
+      });
+      // Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => console.log("Cancel Pressed"),
+      //     style: "cancel",
+      //   },
+      //   { text: "OK", onPress: () => console.log("OK Pressed") },
+      // ]);
       console.log("salah");
     }
   };
@@ -178,11 +185,11 @@ const styles = {
   },
   levelContainer: {
     position: "absolute",
-    top: 20
+    top: 20,
   },
   textLevel: {
     fontSize: 25,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   questionContainer: {
     flex: 2,
@@ -240,7 +247,7 @@ const styles = {
   },
   speakerContainer: {
     position: "absolute",
-    top: 150
+    top: 150,
   },
   speakerButton: {
     paddingVertical: 5,
