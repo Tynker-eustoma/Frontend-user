@@ -42,10 +42,7 @@ function QuizSection({ navigation, route }) {
   }
 
   const speak = () => {
-    // console.log('masuk')
-    const thingToSay =
-      "Sebutkan bahasa inggris dari angka satu, sebutkan 2 kali ya";
-    Speech.speak(thingToSay);
+    Speech.speak(game.question);
   };
 
   const [selectedOption, setSelectedOption] = useState(null);
@@ -179,13 +176,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textLevel: {
-   fontSize: 21,
-   fontWeight: "bold",
-   color: "#757573",
-   marginTop: 10
+    fontSize: 21,
+    fontWeight: "bold",
+    color: "#757573",
+    marginTop: 10,
   },
   question: {
-    fontSize: 21,
+    fontSize: 16,
     marginVertical: 20,
     fontWeight: "bold",
     textAlign: "center",
@@ -206,7 +203,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderRadius: 10,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonPress: {
     width: "42%",
@@ -224,7 +221,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonSubmitContainer: {
     height: "25%",
