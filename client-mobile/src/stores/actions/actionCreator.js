@@ -5,7 +5,7 @@ import {
    FetchingCategory,
    FetchingUser
 } from "./actionType"
-const baseUrl = 'https://e428-2001-448a-50e1-eed7-b5ab-e6aa-e40a-b7c2.ap.ngrok.io'
+const baseUrl = 'http://13.231.227.15:3000'
 
 export const login = (data) => {
 
