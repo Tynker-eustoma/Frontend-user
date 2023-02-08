@@ -47,7 +47,14 @@ const LandingPage = () => {
           ),
           title: <Text style={styles.title}>Counting</Text>,
           subtitle: (
-            <Text style={styles.subtitle}>Ini nanti deskripsi game counting</Text>
+            <Text style={styles.subtitle}>
+              In this mode, you will be given questions in the form of pictures.
+              You can choose the answer that you think best fits the given
+              question. You can press the submit button when you are sure your
+              answer is correct. When your answer is correct, you will be
+              redirected to the next page. But when your answer is wrong, a
+              notification will appear that your answer is wrong.
+            </Text>
           ),
         },
         {
@@ -60,7 +67,14 @@ const LandingPage = () => {
           ),
           title: <Text style={styles.title}>Guessing</Text>,
           subtitle: (
-            <Text style={styles.subtitle}>Ini nanti deskripsi game guessing</Text>
+            <Text style={styles.subtitle}>
+              In this mode, you will be given a question in the form of a word.
+              You can choose the answer that you think best fits the given
+              question. You can press the submit button when you are sure your
+              answer is correct. When your answer is correct, you will be
+              redirected to the next page. But when your answer is wrong, a
+              notification will appear that your answer is wrong.
+            </Text>
           ),
         },
         {
@@ -73,7 +87,13 @@ const LandingPage = () => {
           ),
           title: <Text style={styles.title}>Basic English</Text>,
           subtitle: (
-            <Text style={styles.subtitle}>Ini nanti deskripsi game basic english</Text>
+            <Text style={styles.subtitle}>
+              In this mode, you will be given questions in the form of a word
+              and a picture. You are required to pronounce the answer you think
+              is correct by pressing the microphone button. when your answer is
+              correct, you will be redirected to the next page. when your answer
+              is wrong, a notification will appear that your answer is wrong
+            </Text>
           ),
         },
       ]}
