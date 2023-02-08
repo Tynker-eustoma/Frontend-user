@@ -11,6 +11,7 @@ import {
 import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Speech from "expo-speech";
+import Toast from "react-native-toast-message"
 
 const Guessing = ({ navigation, route }) => {
   const { id } = route.params;
