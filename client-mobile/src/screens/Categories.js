@@ -8,8 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Games = ({ navigation, route }) => {
   const categories = useSelector((state) => state.categories.categories)
   const allState = useSelector((state) => state)
-  const theAnimations = [ "fadeIn", "fadeInUp", "fadeInDown", "fadeInDownBig", "fadeInUpBig", "fadeInLeft", "fadeInLeftBig", "fadeInRight",  "fadeInRightBig", "flipInX", "flipInY", "slideInDown", "slideInUp", "slideInLeft", "slideInRight", "zoomIn", "zoomInDown", "zoomInUp", "zoomInLeft", "zoomInRight"]
-  const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
+//   const theAnimations = [ "fadeIn", "fadeInUp", "fadeInDown", "fadeInDownBig", "fadeInUpBig", "fadeInLeft", "fadeInLeftBig", "fadeInRight",  "fadeInRightBig", "flipInX", "flipInY", "slideInDown", "slideInUp", "slideInLeft", "slideInRight", "zoomIn", "zoomInDown", "zoomInUp", "zoomInLeft", "zoomInRight"]
+//   const animation = theAnimations[Math.floor(Math.random() * theAnimations.length)]
   const dispatch = useDispatch()
   const theCategories = async () => {
     try {
@@ -26,7 +26,7 @@ const Games = ({ navigation, route }) => {
   const renderItem = ({ item, index }) => {
     return (
       <Animatable.View
-        animation={animation}
+        animation={"fadeIn"}
         duration={1000}
         delay={index * 300}
       >

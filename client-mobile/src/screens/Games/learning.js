@@ -7,11 +7,12 @@ import {
   Image,
   TouchableHighlight,
   ImageBackground,
-  Alert
+  Alert, 
 } from "react-native";
 import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback} from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -44,10 +45,45 @@ export default function Learning({navigation, route}) {
     }
   }
 
- useEffect(() => {
-    theGame()
- },[])
+  useFocusEffect(
+   useCallback(() => {
+     theGame()
+     const onSpeechStart = (e) => {
+       console.log("onSpeechStart: ", e);
+       setStarted("√");
+     };
  
+   const onSpeechEnd = (e) => {
+      console.log("onSpeechEnd: ", e);
+      setEnd("√");
+      checkAnswer()
+   };
+
+      const onSpeechError = (e) => {
+         setError(JSON.stringify(e.error));
+      };
+
+      const onSpeechResults = (e) => {
+         console.log("onSpeechResults: ", e);
+         setResults(e.value);
+      };
+
+      const onSpeechPartialResults = (e) => {
+         console.log("onSpeechPartialResults: ", e);
+         setPartialResults(e.value);
+      };
+   
+      Voice.onSpeechStart = onSpeechStart;
+      Voice.onSpeechEnd = onSpeechEnd;
+      Voice.onSpeechError = onSpeechError;
+      Voice.onSpeechResults = onSpeechResults;
+      Voice.onSpeechPartialResults = onSpeechPartialResults;
+     // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged
+      return () => {
+         Voice.destroy().then(Voice.removeAllListeners);
+      };
+   }, [])
+   );
 
   if(!game){
      return <Text>Loading bang........</Text>
@@ -55,58 +91,24 @@ export default function Learning({navigation, route}) {
 
   // console.log(game)
 
-  
 
-  useEffect(() => {
-    const onSpeechStart = (e) => {
-      console.log("onSpeechStart: ", e);
-      setStarted("√");
-    };
-
-    const onSpeechEnd = (e) => {
-      console.log("onSpeechEnd: ", e);
-      setEnd("√");
-      const checkAnswer = async() => {
-    // if(results[0] == game.answer || results[1] == game.answer|| results[2] == game.answer || results[3] == game.answer){
+   const checkAnswer = async() => {
+   if(Object.keys(game).length > 0){
+     // if(results[0] == game.answer || results[1] == game.answer|| results[2] == game.answer || results[3] == game.answer){
       console.log('jawaban betul gengss YUHUUUUUUUUUUUUUUUUU')
       const access_token = await AsyncStorage.getItem("access_token")
-      console.log(id, "id<<<<<<<<<<<<<<<<<<<<<<<")
-      console.log(game.lvl, "lvl gameeeeeeeeeeeeeeeeeeee")
+      console.log(game)
+      console.log(id, "id<<<<<<<<<<<<<<<<<<<<<<<", game.lvl, "level<<<<<<<<<")
+      console.log(game.CategoryId, "category id<<<<<<<<<<<")
       dispatch(updateLevel(game.CategoryId, access_token, Number(game.lvl)+1)).then(data => navigation.replace('learning', {id: id+1}))
-    // } else {
-      // console.log('jawaban salah')
-    // }
-  }
-  checkAnswer()
-    };
-
-    const onSpeechError = (e) => {
-      setError(JSON.stringify(e.error));
-    };
-
-    const onSpeechResults = (e) => {
-      console.log("onSpeechResults: ", e);
-      setResults(e.value);
-    };
-
-    const onSpeechPartialResults = (e) => {
-      console.log("onSpeechPartialResults: ", e);
-      setPartialResults(e.value);
-    };
-
-    Voice.onSpeechStart = onSpeechStart;
-    Voice.onSpeechEnd = onSpeechEnd;
-    Voice.onSpeechError = onSpeechError;
-    Voice.onSpeechResults = onSpeechResults;
-    Voice.onSpeechPartialResults = onSpeechPartialResults;
-    // Voice.onSpeechVolumeChanged = onSpeechVolumeChanged
-    return () => {
-      Voice.destroy().then(Voice.removeAllListeners);
-    };
-  }, []);
-
-
-  
+     // } else {
+         console.log('jawaban salah')
+     // }
+   } else {
+      console.log("game kosong gan")
+   }
+}
+   
 
   // console.log(game)
   
@@ -123,6 +125,9 @@ export default function Learning({navigation, route}) {
     } catch (error) {
       console.error(e);
     }
+
+    setTimeout(stopRecognizing, 3000);
+
   };
 
   const stopRecognizing = async () => {
