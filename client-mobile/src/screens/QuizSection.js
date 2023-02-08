@@ -14,6 +14,7 @@ import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
 import { getGame, updateLevel } from "../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message"
 
 function QuizSection({ navigation, route }) {
   // const [choice, setChoice] = useState('A')
@@ -69,14 +70,20 @@ function QuizSection({ navigation, route }) {
 
       update();
     } else {
-      Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
-      ]);
+      Toast.show({
+        type: "error",
+        text1: "Jawaban Salah",
+        text2: "Ulangi Sekali Lagi",
+        position: "top"
+      })
+      // Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => console.log("Cancel Pressed"),
+      //     style: "cancel",
+      //   },
+      //   { text: "OK", onPress: () => console.log("OK Pressed") },
+      // ]);
       console.log("salah");
     }
   };

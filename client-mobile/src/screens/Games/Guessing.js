@@ -58,14 +58,20 @@ const Guessing = ({ navigation, route }) => {
       };
       update();
     } else {
-      Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
-      ]);
+      Toast.show({
+        type: "error",
+        text1: "Jawaban Salah",
+        text2: "Ulangi Sekali Lagi",
+        position: "top",
+      });
+      // Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => console.log("Cancel Pressed"),
+      //     style: "cancel",
+      //   },
+      //   { text: "OK", onPress: () => console.log("OK Pressed") },
+      // ]);
       console.log("salah");
     }
   };
