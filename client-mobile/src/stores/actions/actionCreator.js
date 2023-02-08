@@ -2,9 +2,10 @@ import {
    FetchingGame,
    FetchingGames,
    FetchingCategories,
-   FetchingCategory
+   FetchingCategory,
+   FetchingUser
 } from "./actionType"
-const baseUrl = 'https://1849-36-65-164-64.ap.ngrok.io'
+const baseUrl = 'https://37e5-2001-448a-2077-158d-8c90-f1ff-cea-8422.ap.ngrok.io'
 
 export const login = (data) => {
 
@@ -67,6 +68,33 @@ export const fetchCategory = (payload) => {
       payload
    }
 }
+
+export const fetchUser = (payload) => {
+   return {
+      type: FetchingUser,
+      payload
+   }
+}
+
+export const getUser = (access_token) => {
+   return (dispatch) => {
+      fetch(baseUrl + '/pub/find', {
+            method: "get",
+            headers: {
+               'Content-Type': 'application/json',
+               access_token
+            },
+         })
+         .then(resp => {
+            return resp.json()
+         })
+         .then(data => {
+            return dispatch(fetchUser(data))
+         })
+         .catch(error => console.log(error))
+   }
+}
+
 
 export const getGames = (CategoryId, access_token) => {
    return (dispatch) => {
@@ -137,13 +165,18 @@ export const getGamesByCategory = (categoryId) => {
    }
 }
 
-export const updateLevel = (CategoryId, access_token) => {
-   return fetch(baseUrl + `/pub/games/update/${CategoryId}`, {
-               method: 'put',
-               headers: {
-               'Content-Type': 'application/json',
-               access_token
-               },
-            })
-            .catch(error => console.log(error))
+export const updateLevel = (CategoryId, access_token, lvl) => {
+   return (dispatch) => {
+      const level = {lvl}
+      console.log(level, "action creatorrr")
+      return fetch(baseUrl + `/pub/games/update/${CategoryId}`, {
+         method: 'put',
+         headers: {
+         'Content-Type': 'application/json',
+         access_token
+         },
+         body: JSON.stringify(level)
+      })
+      .catch(error => console.log(error))
+   }
 }

@@ -11,7 +11,7 @@ const LandingPage = () => {
       onDone={() => navigation.replace("Login")}
       pages={[
         {
-          backgroundColor: "#ffa500",
+          backgroundColor: "#fff",
           image: (
             <Image
               source={require("../assets/TynkerLogo.png")}
@@ -22,7 +22,7 @@ const LandingPage = () => {
           subtitle: <Text style={styles.subtitle}></Text>,
         },
         {
-          backgroundColor: "#ffa500",
+          backgroundColor: "#BFACE2",
           image: (
             <Image
               source={require("../assets/avatar2.png")}
@@ -38,7 +38,7 @@ const LandingPage = () => {
           ),
         },
         {
-          backgroundColor: "#ffa500",
+          backgroundColor: "#A084DC",
           image: (
             <Image
               source={require("../assets/avatar3.png")}
@@ -51,7 +51,7 @@ const LandingPage = () => {
           ),
         },
         {
-          backgroundColor: "#ffa500",
+          backgroundColor: "#8D72E1",
           image: (
             <Image
               source={require("../assets/avatar3.png")}
@@ -64,7 +64,7 @@ const LandingPage = () => {
           ),
         },
         {
-          backgroundColor: "#ffa500",
+          backgroundColor: "#645CBB",
           image: (
             <Image
               source={require("../assets/avatar3.png")}

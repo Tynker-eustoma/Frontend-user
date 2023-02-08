@@ -6,30 +6,21 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Guessing = ({navigation, route}) => {
-  const {id} = route.params
+const Guessing = ({ navigation, route }) => {
+  const { id } = route.params;
   const [selectedOption, setSelectedOption] = useState(null);
   const game = useSelector((state) => state.games.game);
   const dispatch = useDispatch();
 
-  const theGame = async () => {
-    try {
-      const access_token = await AsyncStorage.getItem("access_token")
-      dispatch(getGame(id, access_token))
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
- useEffect(() => {
-    theGame()
- },[])
- console.log(game)
-
+  useEffect(() => {
+    theGame();
+  }, []);
+  console.log(game);
 
   const handleSelectOption = (option) => {
     setSelectedOption(option);
@@ -39,35 +30,76 @@ const Guessing = ({navigation, route}) => {
     // code to play audio for the selected option
   };
 
+  const theGame = async () => {
+    try {
+      const access_token = await AsyncStorage.getItem("access_token");
+      dispatch(getGame(id, access_token, game.lvl + 1));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submit = () => {
     if (selectedOption == game.answer) {
       console.log("benar");
       const update = async () => {
         try {
           const access_token = await AsyncStorage.getItem("access_token");
-          updateLevel(game.CategoryId, access_token);
+          dispatch(updateLevel(game.CategoryId, access_token, id + 1)).then(
+            (data) => {
+              console.log("masuk gaesssssssssssssssssssssssssssssss");
+              navigation.replace("Guessing", { id: id + 1 });
+            }
+          );
         } catch (error) {
           console.log(error);
         }
       };
       update();
     } else {
+      Alert.alert("Jawaban salah", "Ulangi sekali lagi", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
       console.log("salah");
     }
   };
+
   return (
     <ImageBackground
       source={require("../../assets/Guessing.jpg")}
       style={styles.container}
     >
+      <View style={styles.levelContainer}>
+        <Text style={styles.textLevel}>Level {game.lvl}</Text>
+      </View>
       <View style={styles.questionContainer}>
         <Text style={styles.question}>{game.question}</Text>
+      </View>
+      <View style={styles.speakerContainer}>
+        <TouchableOpacity
+          style={styles.speakerButton}
+          onPress={handleSpeakOption}
+        >
+          <Image
+            source={{
+              uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
+            }}
+            style={{ width: 50, height: 50 }}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.optionsContainer}>
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption === game.optionA ? styles.selectedOption : styles.option,
+            selectedOption === game.optionA
+              ? styles.selectedOption
+              : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionA)}
         >
@@ -80,7 +112,9 @@ const Guessing = ({navigation, route}) => {
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption === game.optionB ? styles.selectedOption : styles.option,
+            selectedOption === game.optionB
+              ? styles.selectedOption
+              : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionB)}
         >
@@ -95,7 +129,9 @@ const Guessing = ({navigation, route}) => {
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption === game.optionC ? styles.selectedOption : styles.option,
+            selectedOption === game.optionC
+              ? styles.selectedOption
+              : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionC)}
         >
@@ -108,7 +144,9 @@ const Guessing = ({navigation, route}) => {
         <TouchableOpacity
           style={[
             styles.option,
-            selectedOption === game.optionD ? styles.selectedOption : styles.option,
+            selectedOption === game.optionD
+              ? styles.selectedOption
+              : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionD)}
         >
@@ -128,19 +166,6 @@ const Guessing = ({navigation, route}) => {
           <Text style={styles.submit}>SUBMIT</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.speakerContainer}>
-        <TouchableOpacity
-          style={styles.speakerButton}
-          onPress={handleSpeakOption}
-        >
-          <Image
-            source={{
-              uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
-            }}
-            style={{ width: 50, height: 50 }}
-          />
-        </TouchableOpacity>
-      </View>
     </ImageBackground>
   );
 };
@@ -151,12 +176,26 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+  levelContainer: {
+    position: "absolute",
+    top: 20
+  },
+  textLevel: {
+    fontSize: 25,
+    fontWeight: "bold"
+  },
   questionContainer: {
+    flex: 2,
+    flexDirection: "row",
     position: "absolute",
     top: 100,
+    alignItems: "center",
+    justifyContent: "space-around",
+    marginTop: 5,
+    marginHorizontal: 20,
   },
   question: {
-    fontSize: 20,
+    fontSize: 25,
     marginBottom: 10,
     fontWeight: "bold",
   },
@@ -185,13 +224,14 @@ const styles = {
     borderRadius: 20,
   },
   submitButton: {
+    position: "absolute",
+    bottom: 100,
     borderRadius: 20,
     backgroundColor: "#87CEEB",
-    width: 80,
+    width: 100,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
   },
   submit: {
     fontSize: 15,
@@ -200,15 +240,12 @@ const styles = {
   },
   speakerContainer: {
     position: "absolute",
-    bottom: 50,
+    top: 150
   },
   speakerButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 20,
-  },
-  speakerText: {
-    fontSize: 20,
   },
 };
 

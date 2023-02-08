@@ -7,17 +7,28 @@ import {
   Image,
   TouchableHighlight,
   ImageBackground,
+  Alert
 } from "react-native";
 import * as Speech from "expo-speech";
 import Voice from "@react-native-voice/voice";
 import { useEffect, useState } from "react";
-import { getGame } from "../../stores/actions/actionCreator";
+import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Learning({navigation, route}) {
+  const [pitch, setPitch] = useState("");
+  const [error, setError] = useState("");
+  const [end, setEnd] = useState("");
+  const [started, setStarted] = useState("");
+  const [results, setResults] = useState([]);
+  const [partialResults, setPartialResults] = useState([]);
+
   const speak = () => {
     const thingToSay = game.question
     Speech.speak(thingToSay);
   };
+
+  const {id} = route.params
 
   const dispatch = useDispatch()
 
@@ -26,7 +37,8 @@ export default function Learning({navigation, route}) {
   const theGame = async () => {
     try {
       const access_token = await AsyncStorage.getItem("access_token")
-      dispatch(getGame(id, access_token))
+      dispatch(getGame(id, access_token, game.lvl+1))
+      
     } catch (error) {
       console.log(error)
     }
@@ -35,7 +47,7 @@ export default function Learning({navigation, route}) {
  useEffect(() => {
     theGame()
  },[])
- console.log(game)
+ 
 
   if(!game){
      return <Text>Loading bang........</Text>
@@ -43,12 +55,7 @@ export default function Learning({navigation, route}) {
 
   // console.log(game)
 
-  const [pitch, setPitch] = useState("");
-  const [error, setError] = useState("");
-  const [end, setEnd] = useState("");
-  const [started, setStarted] = useState("");
-  const [results, setResults] = useState([]);
-  const [partialResults, setPartialResults] = useState([]);
+  
 
   useEffect(() => {
     const onSpeechStart = (e) => {
@@ -59,6 +66,18 @@ export default function Learning({navigation, route}) {
     const onSpeechEnd = (e) => {
       console.log("onSpeechEnd: ", e);
       setEnd("√");
+      const checkAnswer = async() => {
+    // if(results[0] == game.answer || results[1] == game.answer|| results[2] == game.answer || results[3] == game.answer){
+      console.log('jawaban betul gengss YUHUUUUUUUUUUUUUUUUU')
+      const access_token = await AsyncStorage.getItem("access_token")
+      console.log(id, "id<<<<<<<<<<<<<<<<<<<<<<<")
+      console.log(game.lvl, "lvl gameeeeeeeeeeeeeeeeeeee")
+      dispatch(updateLevel(game.CategoryId, access_token, Number(game.lvl)+1)).then(data => navigation.replace('learning', {id: id+1}))
+    // } else {
+      // console.log('jawaban salah')
+    // }
+  }
+  checkAnswer()
     };
 
     const onSpeechError = (e) => {
@@ -86,17 +105,11 @@ export default function Learning({navigation, route}) {
     };
   }, []);
 
-  // const onSpeechVolumeChanged = (e) => {
-  //   console.log('onSpeechVolumeChanged: ', e )
-  //   setPitch(e.value)
-  // }
 
-  console.log(partialResults)
-  console.log(partialResults[3])
+  
 
-  if(partialResults.value[0] == "two two" || partialResults.value[1] == "two two"|| partialResults.value[2] == "two two" || partialResults.value[3] == "two two"){
-    console.log('jawaban betul gengss YUHUUUUUUUUUUUUUUUUU')
-  }
+  // console.log(game)
+  
 
   const startRecognizing = async () => {
     try {

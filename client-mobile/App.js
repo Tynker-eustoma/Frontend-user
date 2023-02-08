@@ -21,7 +21,12 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Login" component={LoginRegister} />
+          <Stack.Screen
+            name="LandingPage"
+            component={LandingPage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Login" component={LoginRegister} options={{ headerShown: false }}/>
           <Stack.Screen
             name="Guessing"
             component={Guessing}
@@ -33,16 +38,11 @@ export default function App() {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="LandingPage"
-            component={LandingPage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
             name="categories"
             component={Categories}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Quiz Section" component={QuizSection} />
+          <Stack.Screen name="Quiz Section" component={QuizSection} options={{ headerShown: false }}/>
           <Stack.Screen
             name="games"
             component={Games}
@@ -53,7 +53,7 @@ export default function App() {
             component={Play}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
           <Stack.Screen
             name="Profile"
             component={Profile}
