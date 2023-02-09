@@ -6,7 +6,7 @@ import {
    FetchingUser
 } from "./actionType"
 
-const baseUrl = 'http://13.231.227.15:3000'
+const baseUrl = 'http://13.231.227.15'
 
 
 export const login = (data) => {
