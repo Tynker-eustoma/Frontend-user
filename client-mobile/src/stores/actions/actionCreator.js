@@ -6,7 +6,7 @@ import {
    FetchingUser
 } from "./actionType"
 
-const baseUrl = 'http://13.231.227.15'
+const baseUrl = 'https://tynker-admin.melissa-portofolio.site'
 
 
 export const login = (data) => {

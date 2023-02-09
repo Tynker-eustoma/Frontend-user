@@ -152,8 +152,9 @@ export default function GamesNew ({ navigation, route }) {
                      paddingTop: 40,
                      color: "#FFF",
                      fontWeight: "bold", 
-                     marginTop: 110,
-                     alignSelf: 'center'
+                     marginTop: 90,
+                     alignSelf: 'center',
+                     
                   }}> 
                      Start Learning, {user.username}
                   </Text>

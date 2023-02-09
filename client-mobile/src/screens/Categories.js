@@ -128,8 +128,8 @@ const Games = ({ navigation, route }) => {
          <ImageBackground 
          source={{uri: 'https://i.pinimg.com/564x/a8/9f/15/a89f15e4bc96903f0dfe183f3ab7137c.jpg'}}
          style={{
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height
+            width: '100%',
+            height: '100%'
          }}
       >
       <Text 
@@ -161,7 +161,7 @@ const Games = ({ navigation, route }) => {
          paddingHorizontal: 100,
          alignSelf:'center',
          position: 'absolute',
-         bottom:25
+         bottom: 0
       }}>
          {/* <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color:'#e28743'}}>Ga</Text>
           */}

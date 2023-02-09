@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   avatar: {
     width: 300,
-    height: 250,
+    height: 220,
     borderRadius: 50,
     marginBottom: 10,
     resizeMode: 'contain'
@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-    
     elevation: 6,
 
   },
