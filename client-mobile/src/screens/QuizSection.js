@@ -112,14 +112,14 @@ function QuizSection({ navigation, route }) {
       <View style={styles.contentContaint}>
         <Text style={styles.textLevel}>Level {game.lvl}</Text>
         <Text style={styles.question}>{game.question}</Text>
-        <TouchableHighlight style={styles.speakerButton} onPress={speak}>
+        <TouchableOpacity style={styles.speakerButton} onPress={speak}>
           <Image
             source={{
               uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
             }}
             style={{ width: 50, height: 50 }}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[

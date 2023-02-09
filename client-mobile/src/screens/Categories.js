@@ -161,7 +161,7 @@ const Games = ({ navigation, route }) => {
          paddingHorizontal: 100,
          alignSelf:'center',
          position: 'absolute',
-         bottom:0
+         bottom:25
       }}>
          {/* <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 'bold', color:'#e28743'}}>Ga</Text>
           */}

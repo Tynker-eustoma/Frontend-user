@@ -14,6 +14,7 @@ import * as Speech from "expo-speech";
 import Toast from "react-native-toast-message"
 import Loading from "../Loading";
 
+
 const Guessing = ({ navigation, route }) => {
   const { id } = route.params;
   const [selectedOption, setSelectedOption] = useState(null);
