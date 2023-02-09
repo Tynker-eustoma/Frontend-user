@@ -11,15 +11,23 @@ import {
 import { getGame, updateLevel } from "../../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Speech from "expo-speech";
+import Toast from "react-native-toast-message"
+import Loading from "../Loading";
+
 
 const Guessing = ({ navigation, route }) => {
   const { id } = route.params;
   const [selectedOption, setSelectedOption] = useState(null);
+  const [loading, setLoading] = useState(true)
   const game = useSelector((state) => state.games.game);
   const dispatch = useDispatch();
 
   useEffect(() => {
     theGame();
+    setTimeout(() => {
+      // console.log('jalan')
+      setLoading(false)
+      }, 1200)
   }, []);
   console.log(game);
 
@@ -77,10 +85,17 @@ const Guessing = ({ navigation, route }) => {
   };
 
   return (
+
+   <>
+      {
+         loading &&
+         <Loading />
+      }
+
     <ImageBackground
       source={require("../../assets/Guessing.jpg")}
       style={styles.container}
-    >
+      >
       <View style={styles.levelContainer}>
         <Text style={styles.textLevel}>Level {game.lvl}</Text>
       </View>
@@ -97,7 +112,7 @@ const Guessing = ({ navigation, route }) => {
               uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
             }}
             style={{ width: 50, height: 50 }}
-          />
+            />
         </TouchableOpacity>
       </View>
       <View style={styles.optionsContainer}>
@@ -109,43 +124,43 @@ const Guessing = ({ navigation, route }) => {
               : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionA)}
-        >
+          >
           <Image
             source={{ uri: game.optionA }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
-          />
+            />
           <Text style={styles.optionText}>A</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
-            styles.option,
-            selectedOption === game.optionB
-              ? styles.selectedOption
+             styles.option,
+             selectedOption === game.optionB
+             ? styles.selectedOption
               : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionB)}
-        >
+          >
           <Image
             source={{ uri: game.optionB }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
-          />
+            />
           <Text style={styles.optionText}>B</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.optionsContainer}>
         <TouchableOpacity
           style={[
-            styles.option,
-            selectedOption === game.optionC
-              ? styles.selectedOption
-              : styles.option,
+             styles.option,
+             selectedOption === game.optionC
+             ? styles.selectedOption
+             : styles.option,
           ]}
           onPress={() => handleSelectOption(game.optionC)}
         >
           <Image
             source={{ uri: game.optionC }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
-          />
+            />
           <Text style={styles.optionText}>C</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -154,26 +169,27 @@ const Guessing = ({ navigation, route }) => {
             selectedOption === game.optionD
               ? styles.selectedOption
               : styles.option,
-          ]}
-          onPress={() => handleSelectOption(game.optionD)}
-        >
+            ]}
+            onPress={() => handleSelectOption(game.optionD)}
+            >
           <Image
             source={{ uri: game.optionD }}
             style={{ width: "100%", height: "70%", resizeMode: "contain" }}
-          />
+            />
           <Text style={styles.optionText}>D</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.submitButton}>
         <TouchableOpacity
           onPress={() => {
-            submit();
-          }}
-        >
+             submit();
+            }}
+            >
           <Text style={styles.submit}>SUBMIT</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
+   </>
   );
 };
 
@@ -231,12 +247,12 @@ const styles = {
     borderRadius: 20,
   },
   submitButton: {
-    position: "absolute",
+   position: 'absolute',
     bottom: 100,
     borderRadius: 20,
     backgroundColor: "#87CEEB",
-    width: 100,
-    height: 50,
+    width: 150,
+    height: 75,
     alignItems: "center",
     justifyContent: "center",
   },

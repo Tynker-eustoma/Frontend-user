@@ -15,10 +15,13 @@ import Voice from "@react-native-voice/voice";
 import { getGame, updateLevel } from "../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message"
+import Loading from "./Loading";
 
 function QuizSection({ navigation, route }) {
   // const [choice, setChoice] = useState('A')
   const { id } = route.params;
+
+  const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch();
 
@@ -35,6 +38,10 @@ function QuizSection({ navigation, route }) {
 
   useEffect(() => {
     theGame();
+    setTimeout(() => {
+      // console.log('jalan')
+      setLoading(false)
+      }, 1200)
   }, []);
   console.log(game);
 
@@ -88,7 +95,16 @@ function QuizSection({ navigation, route }) {
     }
   };
 
-  return (
+  return ( 
+
+   <>
+   
+   {
+      loading &&
+
+      <Loading />
+   }
+
     <View style={styles.mainContainer}>
       <View style={styles.imageContaint}>
         <Image source={{ uri: game.imgUrl }} style={styles.image} />
@@ -96,14 +112,14 @@ function QuizSection({ navigation, route }) {
       <View style={styles.contentContaint}>
         <Text style={styles.textLevel}>Level {game.lvl}</Text>
         <Text style={styles.question}>{game.question}</Text>
-        <TouchableHighlight style={styles.speakerButton} onPress={speak}>
+        <TouchableOpacity style={styles.speakerButton} onPress={speak}>
           <Image
             source={{
               uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
             }}
             style={{ width: 50, height: 50 }}
           />
-        </TouchableHighlight>
+        </TouchableOpacity>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[
@@ -162,6 +178,8 @@ function QuizSection({ navigation, route }) {
         </View>
       </View>
     </View>
+
+    </>
   );
 }
 
@@ -239,7 +257,7 @@ const styles = StyleSheet.create({
     width: "47%",
     height: "47%",
     padding: 5,
-    backgroundColor: "#332FD0",
+    backgroundColor: "#5ccc9b",
     marginHorizontal: 5,
     borderRadius: 10,
     alignSelf: "center",
@@ -254,7 +272,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   textChoice: {
-    fontSize: 20,
+    fontSize: 35,
     fontWeight: "600",
     color: "white",
     letterSpacing: 0.5,

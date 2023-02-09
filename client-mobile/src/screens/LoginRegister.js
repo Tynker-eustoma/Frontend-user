@@ -143,7 +143,7 @@ function LoginRegister(){
 
                   <TextInput placeholder='Username' placeholderTextColor="black" style={styles.textInput} onChangeText={setUsername} name='username'/>
                   <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput} onChangeText={setEmail} name='email'/>
-                  <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput} onChangeText={setPassword} name='password'/>
+                  <TextInput secureTextEntry={true} placeholder='Password' placeholderTextColor="black" style={styles.textInput} onChangeText={setPassword} name='password'/>
 
                   <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
                      <Pressable onPress={()=> {
@@ -164,7 +164,7 @@ function LoginRegister(){
                <Animated.View style={[styles.formInputContainer, formAnimatedStyle]}>
 
                   <TextInput placeholder='Email' placeholderTextColor="black" style={styles.textInput} onChangeText={setEmail} name='email'/>
-                  <TextInput placeholder='Password' placeholderTextColor="black" style={styles.textInput} onChangeText={setPassword} name='password'/>
+                  <TextInput secureTextEntry={true} placeholder='Password' placeholderTextColor="black" style={styles.textInput} onChangeText={setPassword} name='password'/>
                
                   <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
                      <Pressable onPress={()=>{
