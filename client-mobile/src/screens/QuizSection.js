@@ -15,10 +15,13 @@ import Voice from "@react-native-voice/voice";
 import { getGame, updateLevel } from "../stores/actions/actionCreator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message"
+import Loading from "./Loading";
 
 function QuizSection({ navigation, route }) {
   // const [choice, setChoice] = useState('A')
   const { id } = route.params;
+
+  const [loading, setLoading] = useState(true)
 
   const dispatch = useDispatch();
 
@@ -35,6 +38,10 @@ function QuizSection({ navigation, route }) {
 
   useEffect(() => {
     theGame();
+    setTimeout(() => {
+      // console.log('jalan')
+      setLoading(false)
+      }, 1200)
   }, []);
   console.log(game);
 
@@ -88,7 +95,16 @@ function QuizSection({ navigation, route }) {
     }
   };
 
-  return (
+  return ( 
+
+   <>
+   
+   {
+      loading &&
+
+      <Loading />
+   }
+
     <View style={styles.mainContainer}>
       <View style={styles.imageContaint}>
         <Image source={{ uri: game.imgUrl }} style={styles.image} />
@@ -162,6 +178,8 @@ function QuizSection({ navigation, route }) {
         </View>
       </View>
     </View>
+
+    </>
   );
 }
 
@@ -239,7 +257,7 @@ const styles = StyleSheet.create({
     width: "47%",
     height: "47%",
     padding: 5,
-    backgroundColor: "#332FD0",
+    backgroundColor: "#5ccc9b",
     marginHorizontal: 5,
     borderRadius: 10,
     alignSelf: "center",
@@ -254,7 +272,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   textChoice: {
-    fontSize: 20,
+    fontSize: 35,
     fontWeight: "600",
     color: "white",
     letterSpacing: 0.5,
