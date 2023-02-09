@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Dimensions, TextInput, Pressable} from 'react-native'
-import backround from '../assets/login-background.jpg'
+import backround from '../assets/background-image.jpg'
 import Svg, {Image, Ellipse, ClipPath} from 'react-native-svg'
 import Animated, {useSharedValue, useAnimatedStyle, interpolate, withTiming, withDelay, withSequence, withSpring, log} from 'react-native-reanimated'
 import React, {useState} from 'react'
