@@ -15,7 +15,8 @@ export default function Loading () {
             height: Dimensions.get('window').height,
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 15
+            zIndex: 15,
+            position: 'absolute'
          }}
       >
          <Image

@@ -25,11 +25,11 @@ const LandingPage = () => {
           backgroundColor: "#BFACE2",
           image: (
             <Image
-              source={require("../assets/avatar2.png")}
+              source={require("../assets/landingHello.gif")}
               style={styles.image}
             />
           ),
-          title: <Text style={styles.title}>Welcome Tynker</Text>,
+          title: <Text style={styles.title}>Welcome to Tynker</Text>,
           subtitle: (
             <Text style={styles.subtitle}>
               Tynker is an e-learning app for kids that teaches counting, object
@@ -41,19 +41,15 @@ const LandingPage = () => {
           backgroundColor: "#A084DC",
           image: (
             <Image
-              source={require("../assets/avatar3.png")}
+              source={require("../assets/landingnCounting.gif")}
               style={styles.image}
             />
           ),
           title: <Text style={styles.title}>Counting</Text>,
           subtitle: (
             <Text style={styles.subtitle}>
-              In this mode, you will be given questions in the form of pictures.
-              You can choose the answer that you think best fits the given
-              question. You can press the submit button when you are sure your
-              answer is correct. When your answer is correct, you will be
-              redirected to the next page. But when your answer is wrong, a
-              notification will appear that your answer is wrong.
+              in this mode, you will learn how to count 
+              based on a question that shown in the form of a picture
             </Text>
           ),
         },
@@ -61,19 +57,16 @@ const LandingPage = () => {
           backgroundColor: "#8D72E1",
           image: (
             <Image
-              source={require("../assets/avatar3.png")}
+              source={require("../assets/landingGuessing.gif")}
               style={styles.image}
             />
           ),
           title: <Text style={styles.title}>Guessing</Text>,
           subtitle: (
             <Text style={styles.subtitle}>
-              In this mode, you will be given a question in the form of a word.
-              You can choose the answer that you think best fits the given
-              question. You can press the submit button when you are sure your
-              answer is correct. When your answer is correct, you will be
-              redirected to the next page. But when your answer is wrong, a
-              notification will appear that your answer is wrong.
+              in this mode, you will be given a question in the form of a word. 
+              You need to find the answer by identification and match the question 
+              with images that shown in the option
             </Text>
           ),
         },
@@ -81,7 +74,7 @@ const LandingPage = () => {
           backgroundColor: "#645CBB",
           image: (
             <Image
-              source={require("../assets/avatar3.png")}
+              source={require("../assets/landingLearning.gif")}
               style={styles.image}
             />
           ),
@@ -90,9 +83,7 @@ const LandingPage = () => {
             <Text style={styles.subtitle}>
               In this mode, you will be given questions in the form of a word
               and a picture. You are required to pronounce the answer you think
-              is correct by pressing the microphone button. when your answer is
-              correct, you will be redirected to the next page. when your answer
-              is wrong, a notification will appear that your answer is wrong
+              is correct by pressing the microphone button.
             </Text>
           ),
         },
@@ -119,8 +110,8 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   imageLogo: {
-    width: 300,
-    height: 300,
+    width: 400,
+    height: 400,
     resizeMode: "cover",
     alignSelf: "center",
     alignItems: "center",

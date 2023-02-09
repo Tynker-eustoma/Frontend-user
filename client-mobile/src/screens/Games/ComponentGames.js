@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, View, Image } from "react-native"
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; 
-
+import Toast from "react-native-toast-message"
 export default function ComponentGames (props) {
    let name, section, icon, userLevel
 
@@ -38,7 +38,12 @@ export default function ComponentGames (props) {
    }
 
    const block = () => {
-      console.log('Hehe u nooobbb')
+      Toast.show({
+         type: "error",
+         text1: "level belum cukup",
+         text2: "jangan curang ya adik adik",
+         position: "middle",
+       });
    }
    
    return (

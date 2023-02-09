@@ -7,6 +7,7 @@ import {
    Text,
    Image,
    TouchableHighlight,
+   TouchableOpacity,
    ImageBackground,
    Alert,
  } from "react-native";
@@ -209,22 +210,22 @@ import {
              }}
            >
              <View style={styles.icon}>
-               <TouchableHighlight onPress={startRecognizing}>
+               <TouchableOpacity onPress={startRecognizing}>
                  <Image
                    style={styles.imageButton}
                    source={{
                      uri: `https://images-ext-2.discordapp.net/external/e1j8ABJNN9q8AwDWVskV_OquWxMJoXuS35UNUlWa01A/https/media.tenor.com/N1wfdrdcXeEAAAAi/mic-jumping.gif`,
                    }}
                  />
-               </TouchableHighlight>
-               <TouchableHighlight onPress={speak}>
+               </TouchableOpacity>
+               <TouchableOpacity onPress={speak}>
                  <Image
                    source={{
                      uri: "https://media2.giphy.com/media/PBMzWRByLMFNLY1qfS/giphy.gif?cid=6c09b952155a08df80cc5b5eb0c322bdd7b288c12f9a740c&rid=giphy.gif&ct=s",
                    }}
                    style={{ width: 70, height: 70, marginTop: 30 }}
                  />
-               </TouchableHighlight>
+               </TouchableOpacity>
              </View>
            </ImageBackground>
          </View>
